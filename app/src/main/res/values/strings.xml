@@ -1,0 +1,75 @@
+<resources>
+    <string name="app_name">BottomNavigation</string>
+    <string name="journal">Journal</string>
+    <string name="home">Home</string>
+    <string name="me">Me</string>
+    <string name="button">Button</string>
+    <string name="home_fragment">Home Fragment</string>
+    <string name="journal_fragment">Journal Fragment</string>
+    <string name="me_fragment">Me Fragment</string>
+    <string name="journal_activity">Journal Activity</string>
+    <string name="home_activity">Home Activity</string>
+    <string name="cornucopia">Cornucopia</string>
+    <string name="a_rustic_cornucopia">A rustic cornucopia</string>
+    <string name="title_activity_dashboard">Dashboard</string>
+    <string name="sign_up_with_google">Sign up with Google</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="hello_there_welcome_back">Hello there, Welcome Back</string>
+    <string name="sign_in_to_continue">Sign In to continue</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="password_verify">Verify password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="forgot_password_reset">Forgot Password</string>
+    <string name="new_user_sign_up">New User? SIGN UP</string>
+    <string name="dashboard_screen">Dashboard Screen</string>
+    <string name="welcome">Welcome</string>
+    <string name="full_name">Full Name</string>
+    <string name="email">Email</string>
+    <string name="phone_no">Phone No</string>
+    <string name="go">GO</string>
+    <string name="already_have_an_account_login">Already have an account? LogIN</string>
+    <string name="sign_up_to_start_your_new_journey">Sign up to start your new journey</string>
+    <string name="enter_email">Enter email</string>
+    <string name="submit">Submit</string>
+
+    <string name="food_any_type">All food</string>
+    <string name="value_any_city">Anywhere</string>
+    <string name="value_any_price">Any price</string>
+    <string name="search">Search</string>
+    <string name="no_foods_entered">No Foods Entered</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="add_random_foods">Add Random Foods</string>
+
+    <!-- Types of food I could think of in 5 minutes -->
+    <string-array name="foods">
+        <item>@string/food_any_type</item>
+
+        <item>Apple</item>
+        <item>Banana</item>
+        <item>Pear</item>
+        <item>Raspberry</item>
+        <item>Orange</item>
+        <item>Blackberry</item>
+        <item>Watermelon</item>
+        <item>Peach</item>
+        <item>Mango</item>
+        <item>Kiwi</item>
+        <item>Grape</item>
+        <item>Plum</item>
+    </string-array>
+</resources>
