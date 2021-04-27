@@ -72,4 +72,19 @@
         <item>Grape</item>
         <item>Plum</item>
     </string-array>
+
+
+
+
+
+    <string name = "Protein">Protein </string>
+    <string name = "Fat">Fat </string>
+    <string name = "Carbohydrates">Carbohydrates </string>
+    <string name = "Calories">Calories </string>
+    <string name= "MacroCounter">MacroCounter</string>
+    <string name = "Consumed">Consumed</string>
+    <string name= "Remaining">Remaining</string>
+    <string name = "Fiber">Fiber </string>
+    <string name = "Sugar">Sugar </string>
+
 </resources>
