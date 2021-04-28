@@ -1,22 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/relativeLayout"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:padding="10dp"
+    tools:context=".MainActivity"
+    android:background="#eff1f7"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/home_fragment"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/Calories" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="textStart"
+            android:text="1075.5/2000 kcal" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="88%"
+            android:textAlignment="textEnd" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/protein_pb"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:radius="5dp"
+        android:progressTint="@color/gray"
+        android:layout_marginBottom="10dp"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/Protein" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="textStart"
+            android:text="36.5/50 g" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="88%"
+            android:textAlignment="textEnd" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/calories_pb"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:radius="5dp"
+        android:progressTint="@color/green"
+        android:layout_marginBottom="10dp"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/carbs" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="textStart"
+            android:text="128/200 g" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="88%"
+            android:textAlignment="textEnd" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/carbs_pb"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:radius="5dp"
+        android:progressTint="@color/blue"
+        android:layout_marginBottom="10dp"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/Fat" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="textStart"
+            android:text="21/35 g" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="88%"
+            android:textAlignment="textEnd" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/fat_pb"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:radius="5dp"
+        android:progressTint="@color/red"
+        android:layout_marginBottom="10dp"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        />
+
+
+</LinearLayout>
