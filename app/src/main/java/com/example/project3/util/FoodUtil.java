@@ -46,16 +46,16 @@ public class FoodUtil {
         Random random = new Random();
         String[] foods = context.getResources().getStringArray(R.array.foods);
         foods = Arrays.copyOfRange(foods, 1, foods.length);
-        double[] servings = new double[]{1, 2, 3};
+        float[] servings = new float[]{1, 2, 3};
 
         food.setFoodName(foods[random.nextInt(foods.length)]);
-        food.setServings(getRandomDouble(servings, random));
-        food.setCaloriesPerServing(50 + (50 * random.nextDouble()));
+        food.setServings(getRandomfloat(servings, random));
+        food.setCaloriesPerServing(50 + (50 * random.nextfloat()));
 
         return food;
     }
 
-    private static double getRandomDouble(double[] array, Random random) {
+    private static float getRandomfloat(float[] array, Random random) {
         int ind = random.nextInt(array.length);
         return array[ind];
     }
