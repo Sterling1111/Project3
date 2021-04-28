@@ -35,10 +35,10 @@ import com.google.firebase.firestore.Query;
 /**
  * RecyclerView adapter for a list of Restaurants.
  */
-public class FoodAdapter extends FirestoreAdapter<com.example.project3.adapter.FoodAdapter.ViewHolder> {
+public class FoodAdapter extends RecyclerView.Adapter<com.example.project3.adapter.FoodAdapter.ViewHolder> {
 
     public FoodAdapter(Query query) {
-        super(query);
+        super();
     }
 
     public interface OnFoodSelectedListener {
@@ -50,7 +50,7 @@ public class FoodAdapter extends FirestoreAdapter<com.example.project3.adapter.F
     private OnFoodSelectedListener mListener;
 
     public FoodAdapter(Query query, OnFoodSelectedListener listener) {
-        super(query);
+        super();
         mListener = listener;
     }
 
@@ -63,7 +63,12 @@ public class FoodAdapter extends FirestoreAdapter<com.example.project3.adapter.F
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(getSnapshot(position), mListener);
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

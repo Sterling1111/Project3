@@ -15,9 +15,9 @@
         <activity
             android:name=".Dashboard"
             android:label="@string/title_activity_dashboard" />
-        <activity android:name=".Home" />
-        <activity android:name=".Journal" />
-        <activity android:name=".Me" />
+        <activity android:name=".Home_Fragment" />
+        <activity android:name=".Diary_Fragment" />
+        <activity android:name=".Me_Fragment" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
