@@ -86,5 +86,6 @@
     <string name= "Remaining">Remaining</string>
     <string name = "Fiber">Fiber </string>
     <string name = "Sugar">Sugar </string>
+    <string name="diary_fragment">Diary Fragment</string>
 
 </resources>

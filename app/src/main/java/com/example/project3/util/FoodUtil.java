@@ -50,7 +50,7 @@ public class FoodUtil {
 
         food.setFoodName(foods[random.nextInt(foods.length)]);
         food.setServings(getRandomfloat(servings, random));
-        food.setCaloriesPerServing(50 + (50 * random.nextfloat()));
+        //food.setCaloriesPerServing(50 + (50 * random.nextDouble()));
 
         return food;
     }

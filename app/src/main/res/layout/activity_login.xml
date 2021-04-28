@@ -106,12 +106,21 @@
 
     </LinearLayout>
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:layout_marginTop="0dp"
-        android:layout_gravity="center" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_gravity="center|bottom"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+
+
 
 </LinearLayout>
