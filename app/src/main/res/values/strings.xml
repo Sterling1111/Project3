@@ -77,14 +77,14 @@
 
 
 
-    <string name = "Protein">Protein </string>
-    <string name = "Fat">Fat </string>
-    <string name = "Carbohydrates">Carbohydrates </string>
-    <string name = "Calories">Calories </string>
+    <string name = "Calories">CALORIES: </string>
+    <string name = "Carbohydrates">CARBOHYDRATES: </string>
+    <string name = "Protein">PROTEIN: </string>
+    <string name = "Fat">FATS: </string>
     <string name= "MacroCounter">MacroCounter</string>
     <string name = "Consumed">Consumed</string>
     <string name= "Remaining">Remaining</string>
-    <string name = "Fiber">Fiber </string>
-    <string name = "Sugar">Sugar </string>
+    <string name ="Cornucopia">Cornucopia</string>
+    <string name ="Slogan">Nutrition Made Easy</string>
 
 </resources>
