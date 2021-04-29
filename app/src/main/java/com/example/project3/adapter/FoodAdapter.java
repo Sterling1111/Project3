@@ -32,77 +32,62 @@ import com.example.project3.util.FoodUtil;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
-/**
- * RecyclerView adapter for a list of Restaurants.
- */
-public class FoodAdapter extends RecyclerView.Adapter<com.example.project3.adapter.FoodAdapter.ViewHolder> {
+public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
-    public FoodAdapter(Query query) {
-        super();
-    }
+    private String[] foodNames = {
+            "Trader Joe's, Honeycrisp Apples",
+            "Bananas, Raw",
+            "Pear, Home Canned",
+            "Cherries, Sweet, Raw",
+            "Plums, Dried",
+            "Oranges, Raw",
+            "Water Chestnuts, Raw",
+            "Soy Milk, Plain or Original, Unsweetened, Not Fortified, Ready-to-Drink",
+            "Dave's Killer Bread, 21 Whole Grains Bread"
+    };
 
-    public interface OnFoodSelectedListener {
+    private String[] servings = {
+            "1 medium apple",
+            "1 medium - 7\" to 7 7/8 long",
+            "1 half - with liquid",
+            "1 each - pitted",
+            "1 each",
+            "1 medium - 2 5/8\" diameter",
+            "1 cup, sliced",
+            "1 cup",
+            "1 slice"
+    };
 
-        void onFoodSelected(DocumentSnapshot food);
+    private float[] calories = {80.0f, 105.0f, 56.2f, 5.2f, 22.8f, 61.6f, 120.3f, 87.7f, 120.0f};
 
-    }
-
-    private OnFoodSelectedListener mListener;
-
-    public FoodAdapter(Query query, OnFoodSelectedListener listener) {
-        super();
-        mListener = listener;
-    }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new ViewHolder(inflater.inflate(R.layout.food_list_item, parent, false));
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_list_item, parent, false);
+        return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        holder.foodName.setText(foodNames[position]);
+        holder.servings.setText(servings[position]);
+        holder.calories.setText(String.valueOf(calories[position]));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return foodNames.length;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView foodName, servings, calories;
 
-        TextView foodName;
-        TextView numServings;
-        TextView calories;
-
-        public ViewHolder(View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            foodName = itemView.findViewById(R.id.food_name_textView);
-            numServings = itemView.findViewById(R.id.num_servings_textView);
-            calories = itemView.findViewById(R.id.calories_textView);
+            foodName = itemView.findViewById(R.id.food_name);
+            servings = itemView.findViewById(R.id.servings);
+            calories = itemView.findViewById(R.id.calories_number);
         }
-
-        public void bind(final DocumentSnapshot snapshot,
-                         final OnFoodSelectedListener listener) {
-
-            Food food = snapshot.toObject(Food.class);
-            Resources resources = itemView.getResources();
-
-            foodName.setText(food.getFoodName());
-            numServings.setText(String.valueOf(food.getServings()));
-            calories.setText(String.valueOf(food.getServings() * food.getCaloriesPerServing()));
-            // Click listener
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        listener.onFoodSelected(snapshot);
-                    }
-                }
-            });
-        }
-
     }
 }

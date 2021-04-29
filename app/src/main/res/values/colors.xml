@@ -11,5 +11,6 @@
     <color name="green">#259C25</color>
     <color name="blue">#1259A1</color>
     <color name="red">#AC1515</color>
+    <color name="greySecondary">#8B000000</color>
     <color name="splashBackground">#D3C092</color>
 </resources>
