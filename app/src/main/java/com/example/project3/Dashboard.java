@@ -45,6 +45,7 @@ import com.google.firebase.firestore.Query;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Vector;
 
 //public class Dashboard extends AppCompatActivity implements
 //        View.OnClickListener,
@@ -188,6 +189,8 @@ import java.util.List;
 
 public class Dashboard extends AppCompatActivity {
 
+    private final Vector<Food> foods = new Vector<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,7 +203,17 @@ public class Dashboard extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Home_Fragment()).commit();
+        Food food1 = new Food("Appl1", 50, 1, 0, 15, 1);
+        Food food2 = new Food("Apple2", 50, 1, 0, 15, 1);
+        Food food3 = new Food("Apple3", 50, 1, 0, 15, 1);
+
+        foods.add(food1);
+        foods.add(food2);
+        foods.add(food3);
+        Home_Fragment home_Fragment = new Home_Fragment();
+        home_Fragment.setFoods(foods);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home_Fragment).commit();
     }
 
     @Override
@@ -245,9 +258,11 @@ public class Dashboard extends AppCompatActivity {
                     switch(item.getItemId()) {
                         case R.id.nav_home:
                             selectedFragment = new Home_Fragment();
+                            ((Home_Fragment) selectedFragment).setFoods(foods);
                             break;
                         case R.id.nav_diary:
                             selectedFragment = new Diary_Fragment();
+                            ((Diary_Fragment) selectedFragment).setFoods(foods);
                             break;
                         case R.id.nav_me:
                             selectedFragment = new Me_Fragment();

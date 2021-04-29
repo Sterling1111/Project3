@@ -15,7 +15,9 @@
  */
  package com.example.project3.adapter;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +34,15 @@ import com.example.project3.util.FoodUtil;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
+import java.util.Vector;
+
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
+
+    private Vector<Food> foods;
+
+    public FoodAdapter(Vector<Food> foods) {
+        this.foods = foods;
+    }
 
     private String[] foodNames = {
             "Trader Joe's, Honeycrisp Apples",
@@ -63,31 +73,51 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FoodAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_list_item, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.foodName.setText(foodNames[position]);
-        holder.servings.setText(servings[position]);
-        holder.calories.setText(String.valueOf(calories[position]));
+    public void onBindViewHolder(@NonNull FoodAdapter.ViewHolder holder, int position) {
+        Food food = foods.get(position);
+        if((position & 1) == 1) {
+            holder.getItemView().setBackgroundColor(Color.rgb(238, 233, 233));
+        } else {
+            holder.getItemView().setBackgroundColor(Color.rgb(255, 255, 255));
+        }
+        holder.foodName.setText(food.getFoodName());
+        holder.servings.setText(String.valueOf(food.getServings()) + " servings");
+        holder.calories.setText(String.valueOf(food.getServings() * food.getCaloriesPerServing()));
+        holder.calorie_number.setText("kcal");
     }
 
     @Override
     public int getItemCount() {
-        return foodNames.length;
+        return foods.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        TextView foodName, servings, calories;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView foodName, servings, calories, calorie_number;
+        Food food;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             foodName = itemView.findViewById(R.id.food_name);
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
+            calorie_number = itemView.findViewById(R.id.calories_unit);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                }
+            });
+        }
+
+        public View getItemView() {
+            return itemView;
         }
     }
 }
