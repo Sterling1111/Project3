@@ -37,6 +37,7 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'com.google.android.material:compose-theme-adapter:1.0.0-beta04'
     implementation 'com.elpassion.android.commons:recycler:0.0.21'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -55,6 +56,9 @@ dependencies {
 
     // Firebase UI Library
     implementation 'com.firebaseui:firebase-ui-database:7.1.1'
+
+    //Volley Library
+    implementation 'com.android.volley:volley:1.2.0'
 }
 
 // Apply the 'google-services' plugin

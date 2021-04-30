@@ -228,6 +228,7 @@ public class Dashboard extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch(item.getItemId()){
+
             case R.id.sign_out:
                 FirebaseUtil.getAuth().signOut();
                 startSignIn();
@@ -255,19 +256,26 @@ public class Dashboard extends AppCompatActivity {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment selectedFragment = null;
+                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
                     switch(item.getItemId()) {
                         case R.id.nav_home:
                             selectedFragment = new Home_Fragment();
-
+                            toolbar.setTitle("Home");
                             ((Home_Fragment) selectedFragment).setFoods(foods);
                             break;
                         case R.id.nav_diary:
                             selectedFragment = new Diary_Fragment();
+                            toolbar.setTitle("Diary");
                             ((Diary_Fragment) selectedFragment).setFoods(foods);
                             break;
                         case R.id.nav_me:
                             selectedFragment = new Me_Fragment();
+                            toolbar.setTitle("Me");
+                            break;
+                        case R.id.nav_search:
+                            selectedFragment = new Search_Fragment();
+                            toolbar.setTitle("Search");
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();

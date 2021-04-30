@@ -41,14 +41,16 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         FirebaseAuth.getInstance().signOut();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) {
+
+        //TODO: reimplement login activity
+        /*if (user == null) {
             // Not signed in launch the sign in activity
             startActivity(new Intent(MainActivity.this, Login.class));
         } else {
             Log.d(TAG, user.getEmail());
             startActivity(new Intent(MainActivity.this, Dashboard.class));
-        }
+        }*/
+        startActivity(new Intent(MainActivity.this, Dashboard.class));
         finish();
-        return;
     }
 }

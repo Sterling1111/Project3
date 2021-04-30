@@ -74,18 +74,15 @@
     </string-array>
 
 
-
-
-
-    <string name = "Protein">Protein </string>
-    <string name = "Fat">Fat </string>
-    <string name = "Carbohydrates">Carbohydrates </string>
-    <string name = "Calories">Calories </string>
-    <string name= "MacroCounter">MacroCounter</string>
-    <string name = "Consumed">Consumed</string>
-    <string name= "Remaining">Remaining</string>
-    <string name = "Fiber">Fiber </string>
-    <string name = "Sugar">Sugar </string>
+    <string name="Protein">Protein </string>
+    <string name="Fat">Fat </string>
+    <string name="Carbohydrates">Carbohydrates </string>
+    <string name="Calories">Calories </string>
+    <string name="MacroCounter">MacroCounter</string>
+    <string name="Consumed">Consumed</string>
+    <string name="Remaining">Remaining</string>
+    <string name="Fiber">Fiber </string>
+    <string name="Sugar">Sugar </string>
     <string name="diary_fragment">Diary Fragment</string>
     <string name="carbs">Carbs</string>
     <string name="add_food">Add Food</string>
