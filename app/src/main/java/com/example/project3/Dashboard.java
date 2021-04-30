@@ -210,10 +210,10 @@ public class Dashboard extends AppCompatActivity {
         foods.add(food1);
         foods.add(food2);
         foods.add(food3);
-        Home_Fragment home_Fragment = new Home_Fragment();
-        home_Fragment.setFoods(foods);
+        Home_Fragment home_fragment = new Home_Fragment();
+        home_fragment.setFoods(foods);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home_Fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home_fragment).commit();
     }
 
     @Override

@@ -82,7 +82,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull FoodAdapter.ViewHolder holder, int position) {
         Food food = foods.get(position);
         if((position & 1) == 1) {
-            holder.getItemView().setBackgroundColor(Color.rgb(238, 233, 233));
+            holder. getItemView().setBackgroundColor(Color.rgb(238, 233, 233));
         } else {
             holder.getItemView().setBackgroundColor(Color.rgb(255, 255, 255));
         }
@@ -97,7 +97,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
         return foods.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView foodName, servings, calories, calorie_number;
         Food food;
 
@@ -107,13 +107,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
             calorie_number = itemView.findViewById(R.id.calories_unit);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                }
-            });
         }
 
         public View getItemView() {

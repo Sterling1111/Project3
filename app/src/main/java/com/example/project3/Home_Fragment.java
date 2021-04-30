@@ -14,15 +14,19 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project3.adapter.FoodAdapter;
+import com.example.project3.adapter.FoodDataAdapter;
 import com.example.project3.model.Food;
 
 import java.util.Vector;
 
 public class Home_Fragment extends Fragment {
-    ProgressBar calories_pb, protein_pb, carbs_pb, fat_pb;
-    TextView calories_percentageTextView, protein_percentageTextView, carbs_percentageTextView, fat_percentageTextView, caloriesTextView, proteinTextView, carbsTextView, fatTextView;
     Vector<Food> foods;
+/*    ProgressBar calories_pb, protein_pb, carbs_pb, fat_pb;
+    TextView calories_percentageTextView, protein_percentageTextView, carbs_percentageTextView, fat_percentageTextView, caloriesTextView, proteinTextView, carbsTextView, fatTextView;
     @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,6 +72,21 @@ public class Home_Fragment extends Fragment {
         carbs_percentageTextView.setText(String.valueOf(carbs_percentage) + " %");
         fat_percentageTextView.setText(String.valueOf(fat_percentage) + " %");
 
+        return v;
+    }*/
+
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.Adapter adapter;
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.home_fragment, container,false);
+        recyclerView = v.findViewById(R.id.recycler_home);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        recyclerView.setAdapter(new FoodDataAdapter(foods));
         return v;
     }
 
