@@ -33,7 +33,6 @@ import com.example.project3.model.Food;
 import com.example.project3.util.FoodUtil;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
-
 import java.util.Vector;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
