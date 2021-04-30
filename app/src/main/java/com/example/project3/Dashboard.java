@@ -203,6 +203,7 @@ public class Dashboard extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
+
         Food food1 = new Food("Appl1", 50, 1, 0, 15, 1);
         Food food2 = new Food("Apple2", 50, 1, 0, 15, 1);
         Food food3 = new Food("Apple3", 50, 1, 0, 15, 1);
@@ -258,6 +259,7 @@ public class Dashboard extends AppCompatActivity {
                     switch(item.getItemId()) {
                         case R.id.nav_home:
                             selectedFragment = new Home_Fragment();
+
                             ((Home_Fragment) selectedFragment).setFoods(foods);
                             break;
                         case R.id.nav_diary:
