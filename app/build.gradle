@@ -55,6 +55,9 @@ dependencies {
 
     // Firebase UI Library
     implementation 'com.firebaseui:firebase-ui-database:7.1.1'
+
+    //Volley Library
+    implementation 'com.android.volley:volley:1.2.0'
 }
 
 // Apply the 'google-services' plugin
