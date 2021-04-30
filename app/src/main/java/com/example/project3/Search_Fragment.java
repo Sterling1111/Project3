@@ -102,15 +102,15 @@ public class Search_Fragment extends Fragment {
 
                     JSONArray nutrients = f.getJSONArray("foodNutrients");
 
-//                        for (int j = 0; j < nutrients.length(); j++) {
-//                            JSONObject n = nutrients.getJSONObject(j);
-//                            String nutrientName = n.getString("nutrientName");
-//                            String unitName = n.getString("unitName");
-//                            String derivationDescription = n.getString("derivationDescription");
-//                            String value = String.valueOf(n.getDouble("value"));
-//
-//
-//                        }
+                        for (int j = 0; j < nutrients.length(); j++) {
+                            JSONObject n = nutrients.getJSONObject(j);
+                            String nutrientName = n.getString("nutrientName");
+                            String unitName = n.getString("unitName");
+                            String derivationDescription = n.getString("derivationDescription");
+                            String value = String.valueOf(n.getDouble("value"));
+
+
+                        }
 
 
                 }
