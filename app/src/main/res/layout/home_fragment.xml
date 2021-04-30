@@ -22,6 +22,8 @@
             android:text="@string/Calories" />
 
         <TextView
+
+            android:id="@+id/calories_number"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -29,6 +31,7 @@
             android:text="1075.5/2000 kcal" />
 
         <TextView
+            android:id="@+id/calorie_percentage"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -37,11 +40,12 @@
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/protein_pb"
+        android:id="@+id/calories_pb"
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:radius="5dp"
-        android:progressTint="@color/gray"
+        android:backgroundTint="@color/greySecondary"
+        android:progressTint="@color/yellow"
         android:layout_marginBottom="10dp"
         style="@android:style/Widget.ProgressBar.Horizontal"
         />
@@ -58,6 +62,7 @@
             android:text="@string/Protein" />
 
         <TextView
+            android:id="@+id/protein_number"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -65,6 +70,7 @@
             android:text="36.5/50 g" />
 
         <TextView
+            android:id="@+id/protein_percentage"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -73,7 +79,7 @@
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/calories_pb"
+        android:id="@+id/protein_pb"
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:radius="5dp"
@@ -83,9 +89,9 @@
         />
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="100dp"
@@ -94,13 +100,16 @@
             android:text="@string/carbs" />
 
         <TextView
+
+            android:id="@+id/carbs_number"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="128/200 g"
-            android:textAlignment="textStart" />
+            android:textAlignment="textStart"
+            android:text="128/200 g" />
 
         <TextView
+            android:id="@+id/carbs_percentage"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -130,6 +139,7 @@
             android:text="@string/Fat" />
 
         <TextView
+            android:id="@+id/fat_number"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -137,6 +147,7 @@
             android:text="21/35 g" />
 
         <TextView
+            android:id="@+id/fat_percentage"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

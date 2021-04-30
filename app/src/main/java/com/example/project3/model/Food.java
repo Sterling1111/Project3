@@ -24,6 +24,15 @@ public class Food {
 
     public Food() {}
 
+    public Food(String foodName, float caloriesPerServing, float servings, float protein, float carbs, float fat) {
+        this.foodName = foodName;
+        this.caloriesPerServing = caloriesPerServing;
+        this.servings = servings;
+        this.protein = protein;
+        this.totalCarb = carbs;
+        this.totalFat = fat;
+    }
+
     public Food(String foodName, float caloriesPerServing, float totalFat, float satFat, float transFat, float polyFat,
                 float monoFat, float chol, float sodium, float totalCarb, float fiber, float sugar, float protein,
                 float vitD, float calcium, float iron, float potassium, float vitA, float vitC) {
@@ -55,6 +64,8 @@ public class Food {
     public void setFoodName(String foodName) {
         this.foodName = foodName;
     }
+
+    public float getCalories() { return caloriesPerServing * servings; }
 
     public float getCaloriesPerServing() {
         return caloriesPerServing;

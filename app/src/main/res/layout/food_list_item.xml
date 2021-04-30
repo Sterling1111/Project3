@@ -1,44 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/cornucopia" />
 
     <TextView
-        android:id="@+id/food_name_textView"
+        android:id="@+id/food_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="5dp"
-        android:text="TextView"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_alignTop="@+id/logo"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="-3dp"
+        android:layout_toEndOf="@+id/logo"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:maxLength="40"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="Trader Joe's, Honeycrisp Apples" />
 
     <TextView
-        android:id="@+id/num_servings_textView"
+        android:id="@+id/servings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="8dp"
-        android:text="TextView"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/food_name_textView"
-        app:layout_constraintVertical_bias="0.325" />
+        android:layout_below="@+id/food_name"
+        android:layout_toEndOf="@+id/logo"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="-3dp"
+        android:textSize="12sp"
+        android:textColor="@color/greySecondary"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="1 medium apple" />
 
     <TextView
-        android:id="@+id/calories_textView"
+        android:id="@+id/calories_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:text="TextView"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/food_name_textView"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="-3dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="80.0" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/calories_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calories_number"
+        android:layout_alignParentEnd="true"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="kcal" />
+
+</RelativeLayout>

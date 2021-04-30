@@ -15,7 +15,9 @@
  */
  package com.example.project3.adapter;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,78 +33,90 @@ import com.example.project3.model.Food;
 import com.example.project3.util.FoodUtil;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
+import java.util.Vector;
 
-/**
- * RecyclerView adapter for a list of Restaurants.
- */
-public class FoodAdapter extends RecyclerView.Adapter<com.example.project3.adapter.FoodAdapter.ViewHolder> {
+public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
-    public FoodAdapter(Query query) {
-        super();
+    private Vector<Food> foods;
+
+    public FoodAdapter(Vector<Food> foods) {
+        this.foods = foods;
     }
 
-    public interface OnFoodSelectedListener {
+    private String[] foodNames = {
+            "Trader Joe's, Honeycrisp Apples",
+            "Bananas, Raw",
+            "Pear, Home Canned",
+            "Cherries, Sweet, Raw",
+            "Plums, Dried",
+            "Oranges, Raw",
+            "Water Chestnuts, Raw",
+            "Soy Milk, Plain or Original, Unsweetened, Not Fortified, Ready-to-Drink",
+            "Dave's Killer Bread, 21 Whole Grains Bread"
+    };
 
-        void onFoodSelected(DocumentSnapshot food);
+    private String[] servings = {
+            "1 medium apple",
+            "1 medium - 7\" to 7 7/8 long",
+            "1 half - with liquid",
+            "1 each - pitted",
+            "1 each",
+            "1 medium - 2 5/8\" diameter",
+            "1 cup, sliced",
+            "1 cup",
+            "1 slice"
+    };
 
-    }
+    private float[] calories = {80.0f, 105.0f, 56.2f, 5.2f, 22.8f, 61.6f, 120.3f, 87.7f, 120.0f};
 
-    private OnFoodSelectedListener mListener;
-
-    public FoodAdapter(Query query, OnFoodSelectedListener listener) {
-        super();
-        mListener = listener;
-    }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new ViewHolder(inflater.inflate(R.layout.food_list_item, parent, false));
+    public FoodAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_list_item, parent, false);
+        return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull FoodAdapter.ViewHolder holder, int position) {
+        Food food = foods.get(position);
+        if((position & 1) == 1) {
+            holder.getItemView().setBackgroundColor(Color.rgb(238, 233, 233));
+        } else {
+            holder.getItemView().setBackgroundColor(Color.rgb(255, 255, 255));
+        }
+        holder.foodName.setText(food.getFoodName());
+        holder.servings.setText(String.valueOf(food.getServings()) + " servings");
+        holder.calories.setText(String.valueOf(food.getServings() * food.getCaloriesPerServing()));
+        holder.calorie_number.setText("kcal");
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return foods.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView foodName, servings, calories, calorie_number;
+        Food food;
 
-        TextView foodName;
-        TextView numServings;
-        TextView calories;
-
-        public ViewHolder(View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            foodName = itemView.findViewById(R.id.food_name_textView);
-            numServings = itemView.findViewById(R.id.num_servings_textView);
-            calories = itemView.findViewById(R.id.calories_textView);
-        }
+            foodName = itemView.findViewById(R.id.food_name);
+            servings = itemView.findViewById(R.id.servings);
+            calories = itemView.findViewById(R.id.calories_number);
+            calorie_number = itemView.findViewById(R.id.calories_unit);
 
-        public void bind(final DocumentSnapshot snapshot,
-                         final OnFoodSelectedListener listener) {
-
-            Food food = snapshot.toObject(Food.class);
-            Resources resources = itemView.getResources();
-
-            foodName.setText(food.getFoodName());
-            numServings.setText(String.valueOf(food.getServings()));
-            calories.setText(String.valueOf(food.getServings() * food.getCaloriesPerServing()));
-            // Click listener
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        listener.onFoodSelected(snapshot);
-                    }
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
                 }
             });
         }
 
+        public View getItemView() {
+            return itemView;
+        }
     }
 }
