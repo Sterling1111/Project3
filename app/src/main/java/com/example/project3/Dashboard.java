@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.project3.adapter.ExpansionState;
 import com.example.project3.adapter.FoodAdapter;
 import com.example.project3.model.Food;
 import com.example.project3.util.FirebaseUtil;
@@ -190,6 +191,7 @@ import java.util.Vector;
 public class Dashboard extends AppCompatActivity {
 
     private final Vector<Food> foods = new Vector<>();
+    private final Vector<ExpansionState> expansionStates = new Vector<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,6 +205,8 @@ public class Dashboard extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
+        for(int i = 0; i < 7; i++) {expansionStates.add(new ExpansionState());}
+
 
         Food food1 = new Food("Appl1", 50, 1, 0, 15, 1);
         Food food2 = new Food("Apple2", 50, 1, 0, 15, 1);
@@ -213,6 +217,7 @@ public class Dashboard extends AppCompatActivity {
         foods.add(food3);
         Home_Fragment home_fragment = new Home_Fragment();
         home_fragment.setFoods(foods);
+        home_fragment.setExpansionStates(expansionStates);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home_fragment).commit();
     }
@@ -240,7 +245,6 @@ public class Dashboard extends AppCompatActivity {
             case R.id.me:
                 Toast.makeText(this, "You clicked logout", Toast.LENGTH_SHORT).show();
                 break;
-
         }
         return true;
     }
@@ -263,6 +267,7 @@ public class Dashboard extends AppCompatActivity {
                             selectedFragment = new Home_Fragment();
                             toolbar.setTitle("Home");
                             ((Home_Fragment) selectedFragment).setFoods(foods);
+                            ((Home_Fragment) selectedFragment).setExpansionStates(expansionStates);
                             break;
                         case R.id.nav_diary:
                             selectedFragment = new Diary_Fragment();
