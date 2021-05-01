@@ -28,7 +28,7 @@ public class Diary_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.diary_fragment, container,false);
-        recyclerView = v.findViewById(R.id.recycler_foods);
+        recyclerView = v.findViewById(R.id.recycler_diary);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         recyclerView.setAdapter(new FoodAdapter(foods));
