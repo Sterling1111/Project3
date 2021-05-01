@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -21,10 +22,11 @@
 
                 <TextView
                     android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Name: "
-                    android:textAlignment="viewEnd" />
+                    android:textAlignment="textEnd"
+                    android:textSize="18sp" />
             </FrameLayout>
 
             <FrameLayout
@@ -34,57 +36,67 @@
 
                 <TextView
                     android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:text="Calories:"
+                    android:textAlignment="textEnd"
+                    android:textSize="18sp" />
             </FrameLayout>
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/textView6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:text="Carbohydrates:"
+                    android:textAlignment="textEnd"
+                    android:textSize="18sp" />
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:text="Protein:"
+                    android:textAlignment="textEnd"
+                    android:textSize="18sp" />
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:text="Fat:"
+                    android:textAlignment="textEnd"
+                    android:textSize="18sp" />
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:text="Servings:"
+                    android:textAlignment="textEnd"
+                    android:textSize="18sp" />
             </FrameLayout>
 
         </LinearLayout>
@@ -100,9 +112,9 @@
 
                 <EditText
                     android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:inputType="text" />
             </FrameLayout>
 
             <FrameLayout
@@ -112,9 +124,9 @@
 
                 <EditText
                     android:id="@+id/calorie_field"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:inputType="numberDecimal" />
             </FrameLayout>
 
             <FrameLayout
@@ -124,9 +136,9 @@
 
                 <EditText
                     android:id="@+id/carbs_field"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:inputType="numberDecimal" />
             </FrameLayout>
 
             <FrameLayout
@@ -136,9 +148,9 @@
 
                 <EditText
                     android:id="@+id/protein_field"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:inputType="numberDecimal" />
             </FrameLayout>
 
             <FrameLayout
@@ -148,9 +160,9 @@
 
                 <EditText
                     android:id="@+id/fats_field"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:inputType="numberDecimal" />
             </FrameLayout>
 
             <FrameLayout
@@ -158,16 +170,37 @@
                 android:layout_height="match_parent">
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:inputType="numberDecimal" />
             </FrameLayout>
         </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/quick_add_food_button"
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add" />
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/quick_add_food_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="Add" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
 </LinearLayout>
