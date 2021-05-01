@@ -111,7 +111,7 @@
                 android:layout_height="match_parent">
 
                 <EditText
-                    android:id="@+id/textView8"
+                    android:id="@+id/food_name_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
@@ -170,6 +170,7 @@
                 android:layout_height="match_parent">
 
                 <EditText
+                    android:id="@+id/servings_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal" />

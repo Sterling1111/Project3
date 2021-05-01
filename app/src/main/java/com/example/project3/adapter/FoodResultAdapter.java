@@ -1,14 +1,18 @@
 package com.example.project3.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project3.Food_Fragment;
 import com.example.project3.R;
 import com.example.project3.model.Food;
 
@@ -18,10 +22,12 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
 
     private final Vector<Food> mFoodList;
     private LayoutInflater mInflater;
+    private FragmentManager manager;
 
-    public FoodResultAdapter(Context context, Vector<Food> foodList) {
+    public FoodResultAdapter(Context context, Vector<Food> foodList, FragmentManager manager) {
         mInflater = LayoutInflater.from(context);
         this.mFoodList = foodList;
+        this.manager = manager;
     }
 
     @NonNull
@@ -43,7 +49,7 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
         return mFoodList.size();
     }
 
-    class FoodResultHolder extends RecyclerView.ViewHolder {
+    class FoodResultHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView foodResultView;
         final FoodResultAdapter mAdapter;
 
@@ -51,6 +57,20 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
             super(itemView);
             foodResultView = itemView.findViewById(R.id.word);
             this.mAdapter = adapter;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int mPosition = getLayoutPosition();
+            Food element = mFoodList.get(mPosition);
+
+            Log.e(FoodResultHolder.class.getSimpleName(), "Clicked on " + element.getFoodName());
+            Toast.makeText(mInflater.getContext(), "Clicked on cell", Toast.LENGTH_LONG).show();
+
+            Food_Fragment food_fragment = new Food_Fragment();
+            manager.beginTransaction().replace(R.id.fragment_container, food_fragment).commit();
+
         }
     }
 }

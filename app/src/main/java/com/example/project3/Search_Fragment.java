@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -31,38 +32,39 @@ import java.util.Vector;
 
 public class Search_Fragment extends Fragment {
     private EditText mSearchEditText;
-    private String TAG = Search_Fragment.class.getSimpleName();
-    private String searchQuery, apiKey = "bGsZ45bJXihI7OhZmH5E3SpnPN0WUXHx24hhAU5l";
+    private final String TAG = Search_Fragment.class.getSimpleName();
+    private String searchQuery;
     private RecyclerView mRecyclerView;
     private FoodResultAdapter mAdapter;
-    private Vector<Food> foodlist = new Vector<>();
+    private final Vector<Food> foodlist = new Vector<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_search_, container, false);
         mSearchEditText = v.findViewById(R.id.search_box);
-        mSearchEditText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    searchQuery = mSearchEditText.getText().toString();
-                    doSearch(searchQuery);
-                    return true;
-                }
-                return false;
+        mSearchEditText.setOnKeyListener((v1, keyCode, event) -> {
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                searchQuery = mSearchEditText.getText().toString();
+                doSearch(searchQuery);
+                return true;
             }
+            return false;
         });
 
         mRecyclerView = v.findViewById(R.id.results_list);
-        mAdapter = new FoodResultAdapter(getActivity(), foodlist);
+        mAdapter = new FoodResultAdapter(getActivity(), foodlist, getParentFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
 
         return v;
     }
 
     private void doSearch(String sq) {
         Log.e(TAG, "Query passed to function: " + sq);
+        String apiKey = "bGsZ45bJXihI7OhZmH5E3SpnPN0WUXHx24hhAU5l";
         String url = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key="+ apiKey +"&query="+ sq +"&dataType=Branded&requireAllWords=true";
 
         foodlist.clear();
@@ -98,20 +100,37 @@ public class Search_Fragment extends Fragment {
                     //String foodCategory = f.getString("foodCategory");
                     Food newFood = new Food();
                     newFood.setFoodName(foodName);
-                    foodlist.add(newFood);
 
                     JSONArray nutrients = f.getJSONArray("foodNutrients");
 
                         for (int j = 0; j < nutrients.length(); j++) {
                             JSONObject n = nutrients.getJSONObject(j);
                             String nutrientName = n.getString("nutrientName");
-                            String unitName = n.getString("unitName");
-                            String derivationDescription = n.getString("derivationDescription");
-                            String value = String.valueOf(n.getDouble("value"));
+                            //String unitName = n.getString("unitName");
+                            //String derivationDescription = n.getString("derivationDescription");
+                            Float value = (float) n.getDouble("value");
 
+                            switch (nutrientName) {
+                                case "Protein":
+                                    newFood.setProtein(value);
+                                    break;
+
+                                case "Total lipid (fat)":
+                                    newFood.setTotalFat(value);
+                                    break;
+
+                                case "Carbohydrate, by difference":
+                                    newFood.setTotalCarb(value);
+                                    break;
+
+                                case "Energy":
+                                    newFood.setCaloriesPerServing(value);
+                                    break;
+                            }
 
                         }
 
+                    foodlist.add(newFood);
 
                 }
 
