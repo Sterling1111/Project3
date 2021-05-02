@@ -2,50 +2,21 @@ package com.example.project3;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.project3.adapter.FoodAdapter;
 import com.example.project3.model.Food;
 import com.example.project3.util.FirebaseUtil;
-import com.example.project3.util.FoodUtil;
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Vector;
 
 //public class Dashboard extends AppCompatActivity implements
@@ -227,8 +198,13 @@ public class Dashboard extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         switch(item.getItemId()){
+            case R.id.quick_add_menu_button:
+                toolbar.setTitle("Quick Add");
+                Toast.makeText(this, "You clicked add", Toast.LENGTH_SHORT).show();
+                switchContent(R.id.fragment_container, new Food_Fragment());
+                break;
 
             case R.id.sign_out:
                 FirebaseUtil.getAuth().signOut();

@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.project3.model.Food;
 
 public class Food_Fragment extends Fragment {
-    Food food;
+    Food food = null;
 
     private TextView nameField;
     private TextView calField;
@@ -30,7 +30,10 @@ public class Food_Fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.food_fragment, container, false);
-        food = (Food) getArguments().getSerializable("food");
+        Bundle args = getArguments();
+        if (args != null) {
+            food = (Food) args.getSerializable("food");
+        }
 
         nameField = v.findViewById(R.id.food_name_field);
         calField = v.findViewById(R.id.calorie_field);
