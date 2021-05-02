@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -204,9 +205,9 @@ public class Dashboard extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
 
-        Food food1 = new Food("Appl1", 50, 1, 0, 15, 1);
-        Food food2 = new Food("Apple2", 50, 1, 0, 15, 1);
-        Food food3 = new Food("Apple3", 50, 1, 0, 15, 1);
+        Food food1 = new Food("Appl1", 50f, 1f, 0f, 15f, 1f);
+        Food food2 = new Food("Apple2", 50f, 1f, 0f, 15f, 1f);
+        Food food3 = new Food("Apple3", 50f, 1f, 0f, 15f, 1f);
 
         foods.add(food1);
         foods.add(food2);
@@ -249,6 +250,12 @@ public class Dashboard extends AppCompatActivity {
         Intent intent = new Intent(Dashboard.this, Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    public void switchContent(int id, Food_Fragment frag) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(id, frag, frag.toString());
+        ft.commit();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =

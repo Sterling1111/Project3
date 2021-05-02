@@ -1,30 +1,34 @@
 package com.example.project3.model;
 
-public class Food {
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class Food implements Serializable {
     private String foodName;
-    private float servings;
-    private float caloriesPerServing;
-    private float totalFat;
-    private float satFat;
-    private float transFat;
-    private float polyFat;
-    private float monoFat;
-    private float chol;
-    private float sodium;
-    private float totalCarb;
-    private float fiber;
-    private float sugar;
-    private float protein;
-    private float vitD;
-    private float calcium;
-    private float iron;
-    private float potassium;
-    private float vitA;
-    private float vitC;
+    private Float servings;
+    private Float caloriesPerServing;
+    private Float totalFat;
+    private Float satFat;
+    private Float transFat;
+    private Float polyFat;
+    private Float monoFat;
+    private Float chol;
+    private Float sodium;
+    private Float totalCarb;
+    private Float fiber;
+    private Float sugar;
+    private Float protein;
+    private Float vitD;
+    private Float calcium;
+    private Float iron;
+    private Float potassium;
+    private Float vitA;
+    private Float vitC;
 
     public Food() {}
 
-    public Food(String foodName, float caloriesPerServing, float servings, float protein, float carbs, float fat) {
+    public Food(String foodName, Float caloriesPerServing, Float servings, Float protein, Float carbs, Float fat) {
         this.foodName = foodName;
         this.caloriesPerServing = caloriesPerServing;
         this.servings = servings;
@@ -33,9 +37,9 @@ public class Food {
         this.totalFat = fat;
     }
 
-    public Food(String foodName, float caloriesPerServing, float totalFat, float satFat, float transFat, float polyFat,
-                float monoFat, float chol, float sodium, float totalCarb, float fiber, float sugar, float protein,
-                float vitD, float calcium, float iron, float potassium, float vitA, float vitC) {
+    public Food(String foodName, Float caloriesPerServing, Float totalFat, Float satFat, Float transFat, Float polyFat,
+                Float monoFat, Float chol, Float sodium, Float totalCarb, Float fiber, Float sugar, Float protein,
+                Float vitD, Float calcium, Float iron, Float potassium, Float vitA, Float vitC) {
         this.foodName = foodName;
         this.caloriesPerServing = caloriesPerServing;
         this.totalFat = totalFat;
@@ -65,161 +69,161 @@ public class Food {
         this.foodName = foodName;
     }
 
-    public float getCalories() { return caloriesPerServing * servings; }
+    public Float getCalories() { return caloriesPerServing * servings; }
 
-    public float getCaloriesPerServing() {
+    public Float getCaloriesPerServing() {
         return caloriesPerServing;
     }
 
-    public void setCaloriesPerServing(float caloriesPerServing) {
+    public void setCaloriesPerServing(Float caloriesPerServing) {
         this.caloriesPerServing = caloriesPerServing;
     }
 
-    public void setCalories(float caloriesPerServing) {
+    public void setCalories(Float caloriesPerServing) {
         this.caloriesPerServing = caloriesPerServing;
     }
 
-    public void setServings(float servings) {
+    public void setServings(Float servings) {
         this.servings = servings;
     }
 
-    public float getServings() {
+    public Float getServings() {
         return servings;
     }
 
-    public float getTotalFat() {
+    public Float getTotalFat() {
         return totalFat;
     }
 
-    public void setTotalFat(float totalFat) {
+    public void setTotalFat(Float totalFat) {
         this.totalFat = totalFat;
     }
 
-    public float getSatFat() {
+    public Float getSatFat() {
         return satFat;
     }
 
-    public void setSatFat(float satFat) {
+    public void setSatFat(Float satFat) {
         this.satFat = satFat;
     }
 
-    public float getTransFat() {
+    public Float getTransFat() {
         return transFat;
     }
 
-    public void setTransFat(float transFat) {
+    public void setTransFat(Float transFat) {
         this.transFat = transFat;
     }
 
-    public float getPolyFat() {
+    public Float getPolyFat() {
         return polyFat;
     }
 
-    public void setPolyFat(float polyFat) {
+    public void setPolyFat(Float polyFat) {
         this.polyFat = polyFat;
     }
 
-    public float getMonoFat() {
+    public Float getMonoFat() {
         return monoFat;
     }
 
-    public void setMonoFat(float monoFat) {
+    public void setMonoFat(Float monoFat) {
         this.monoFat = monoFat;
     }
 
-    public float getChol() {
+    public Float getChol() {
         return chol;
     }
 
-    public void setChol(float chol) {
+    public void setChol(Float chol) {
         this.chol = chol;
     }
 
-    public float getSodium() {
+    public Float getSodium() {
         return sodium;
     }
 
-    public void setSodium(float sodium) {
+    public void setSodium(Float sodium) {
         this.sodium = sodium;
     }
 
-    public float getTotalCarb() {
+    public Float getTotalCarb() {
         return totalCarb;
     }
 
-    public void setTotalCarb(float totalCarb) {
+    public void setTotalCarb(Float totalCarb) {
         this.totalCarb = totalCarb;
     }
 
-    public float getFiber() {
+    public Float getFiber() {
         return fiber;
     }
 
-    public void setFiber(float fiber) {
+    public void setFiber(Float fiber) {
         this.fiber = fiber;
     }
 
-    public float getSugar() {
+    public Float getSugar() {
         return sugar;
     }
 
-    public void setSugar(float sugar) {
+    public void setSugar(Float sugar) {
         this.sugar = sugar;
     }
 
-    public float getProtein() {
+    public Float getProtein() {
         return protein;
     }
 
-    public void setProtein(float protein) {
+    public void setProtein(Float protein) {
         this.protein = protein;
     }
 
-    public float getVitD() {
+    public Float getVitD() {
         return vitD;
     }
 
-    public void setVitD(float vitD) {
+    public void setVitD(Float vitD) {
         this.vitD = vitD;
     }
 
-    public float getCalcium() {
+    public Float getCalcium() {
         return calcium;
     }
 
-    public void setCalcium(float calcium) {
+    public void setCalcium(Float calcium) {
         this.calcium = calcium;
     }
 
-    public float getIron() {
+    public Float getIron() {
         return iron;
     }
 
-    public void setIron(float iron) {
+    public void setIron(Float iron) {
         this.iron = iron;
     }
 
-    public float getPotassium() {
+    public Float getPotassium() {
         return potassium;
     }
 
-    public void setPotassium(float potassium) {
+    public void setPotassium(Float potassium) {
         this.potassium = potassium;
     }
 
-    public float getVitA() {
+    public Float getVitA() {
         return vitA;
     }
 
-    public void setVitA(float vitA) {
+    public void setVitA(Float vitA) {
         this.vitA = vitA;
     }
 
-    public float getVitC() {
+    public Float getVitC() {
         return vitC;
     }
 
-    public void setVitC(float vitC) {
+    public void setVitC(Float vitC) {
         this.vitC = vitC;
     }
 }
