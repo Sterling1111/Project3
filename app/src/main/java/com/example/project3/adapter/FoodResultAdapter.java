@@ -20,14 +20,41 @@ import java.util.Vector;
 
 public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.FoodResultHolder> {
 
+
+    class FoodResultHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public final TextView foodResultView;
+        final FoodResultAdapter mAdapter;
+
+        public FoodResultHolder(View itemView, FoodResultAdapter adapter) {
+            super(itemView);
+            foodResultView = itemView.findViewById(R.id.word);
+            this.mAdapter = adapter;
+            itemView.setOnClickListener(this::onClick);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int mPosition = getLayoutPosition();
+            Food element = mFoodList.get(mPosition);
+
+            Log.e(FoodResultHolder.class.getSimpleName(), "Clicked on " + element.getFoodName());
+            Toast.makeText(mInflater.getContext(), "Clicked on cell", Toast.LENGTH_LONG).show();
+
+            //Food_Fragment food_fragment = new Food_Fragment();
+            //manager.beginTransaction().replace(R.id.fragment_container, food_fragment).commit();
+
+        }
+    }
+
     private final Vector<Food> mFoodList;
     private LayoutInflater mInflater;
-    private FragmentManager manager;
+    //private FragmentManager manager;
 
-    public FoodResultAdapter(Context context, Vector<Food> foodList, FragmentManager manager) {
+    public FoodResultAdapter(Context context, Vector<Food> foodList) {
         mInflater = LayoutInflater.from(context);
         this.mFoodList = foodList;
-        this.manager = manager;
+        //this.manager = manager;
+
     }
 
     @NonNull
@@ -49,28 +76,5 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
         return mFoodList.size();
     }
 
-    class FoodResultHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final TextView foodResultView;
-        final FoodResultAdapter mAdapter;
 
-        public FoodResultHolder(View itemView, FoodResultAdapter adapter) {
-            super(itemView);
-            foodResultView = itemView.findViewById(R.id.word);
-            this.mAdapter = adapter;
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            int mPosition = getLayoutPosition();
-            Food element = mFoodList.get(mPosition);
-
-            Log.e(FoodResultHolder.class.getSimpleName(), "Clicked on " + element.getFoodName());
-            Toast.makeText(mInflater.getContext(), "Clicked on cell", Toast.LENGTH_LONG).show();
-
-            Food_Fragment food_fragment = new Food_Fragment();
-            manager.beginTransaction().replace(R.id.fragment_container, food_fragment).commit();
-
-        }
-    }
 }

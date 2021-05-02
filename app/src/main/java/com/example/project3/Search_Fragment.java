@@ -54,7 +54,7 @@ public class Search_Fragment extends Fragment {
         });
 
         mRecyclerView = v.findViewById(R.id.results_list);
-        mAdapter = new FoodResultAdapter(getActivity(), foodlist, getParentFragmentManager());
+        mAdapter = new FoodResultAdapter(getActivity(), foodlist);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
