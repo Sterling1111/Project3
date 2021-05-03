@@ -42,6 +42,11 @@ public class Food_Fragment extends Fragment {
         fatField = v.findViewById(R.id.fats_field);
         servingsField = v.findViewById(R.id.servings_field);
         addButton = v.findViewById(R.id.quick_add_food_button);
+
+        addButton.setOnClickListener(v1 -> {
+
+        });
+
         setFields();
         return v;
     }
