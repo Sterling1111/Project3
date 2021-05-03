@@ -1,9 +1,13 @@
 package com.example.project3;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project3.adapter.FoodAdapter;
 import com.example.project3.model.Food;
 
+import java.util.Calendar;
 import java.util.Vector;
 
 public class Diary_Fragment extends Fragment {
@@ -22,6 +27,10 @@ public class Diary_Fragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
+
+    private DatePickerDialog datePickerDialog;
+    private Button dateButton;
+
 
     private Vector<Food> foods;
 
@@ -38,4 +47,7 @@ public class Diary_Fragment extends Fragment {
     public void setFoods(Vector<Food> foods) {
         this.foods = foods;
     }
+
+
+    //here is where DatePicker logic should go
 }
