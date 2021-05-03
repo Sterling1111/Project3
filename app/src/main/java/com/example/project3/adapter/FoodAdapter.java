@@ -15,19 +15,27 @@
  */
  package com.example.project3.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+//import androidx.fragment.app.Fragment;
+import android.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 //import com.bumptech.glide.Glide;
+import com.example.project3.Dashboard;
+import com.example.project3.FoodItemFragment;
 import com.example.project3.R;
 import com.example.project3.model.Food;
 import com.example.project3.util.FoodUtil;
@@ -35,12 +43,20 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import java.util.Vector;
 
-public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
+public class FoodAdapter extends FirestoreAdapter<FoodAdapter.ViewHolder> {
+
+    public interface OnFoodSelectedListener {
+        void onFoodSelected(DocumentSnapshot food);
+    }
+
+    private OnFoodSelectedListener listener;
 
     private Vector<Food> foods;
+    private Activity activity;
 
-    public FoodAdapter(Vector<Food> foods) {
-        this.foods = foods;
+    public FoodAdapter(Query query, OnFoodSelectedListener listener) {
+        super(query);
+        this.listener = listener;
     }
 
     private String[] foodNames = {
@@ -79,24 +95,15 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull FoodAdapter.ViewHolder holder, int position) {
-        Food food = foods.get(position);
         if((position & 1) == 1) {
             holder. getItemView().setBackgroundColor(Color.rgb(238, 233, 233));
         } else {
             holder.getItemView().setBackgroundColor(Color.rgb(255, 255, 255));
         }
-        holder.foodName.setText(food.getFoodName());
-        holder.servings.setText(String.valueOf(food.getServings()) + " servings");
-        holder.calories.setText(String.valueOf(food.getServings() * food.getCaloriesPerServing()));
-        holder.calorie_number.setText("kcal");
+        holder.bind(getSnapshot(position), listener);
     }
 
-    @Override
-    public int getItemCount() {
-        return foods.size();
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+     class ViewHolder extends RecyclerView.ViewHolder {
         TextView foodName, servings, calories, calorie_number;
         Food food;
 
@@ -106,7 +113,37 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
             calorie_number = itemView.findViewById(R.id.calories_unit);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(itemView.getContext(), FoodItemFragment.class);
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
+
+         public void bind(final DocumentSnapshot snapshot,
+                          final OnFoodSelectedListener listener) {
+
+             Food food = snapshot.toObject(Food.class);
+             Resources resources = itemView.getResources();
+
+             foodName.setText(food.getFoodName());
+             servings.setText(String.valueOf(food.getServings()) + " servings");
+             calories.setText(String.valueOf(food.getServings() * food.getCaloriesPerServing()));
+             calorie_number.setText("kcal");
+
+             // Click listener
+             itemView.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View view) {
+                     if (listener != null) {
+                         listener.onFoodSelected(snapshot);
+                     }
+                 }
+             });
+         }
 
         public View getItemView() {
             return itemView;

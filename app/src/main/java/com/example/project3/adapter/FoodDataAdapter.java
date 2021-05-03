@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -120,12 +121,30 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
         boolean isExpanded = expansionStates.get(position).getIsExpanded();
         switch(position) {
             case MACRONUTRIENT_TARGETS:
-                initializeMacronutrientHolder((MacronutrientHolder) holder);
-                ((MacronutrientHolder) holder).expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+                MacronutrientHolder macHolder = (MacronutrientHolder) holder;
+                initializeMacronutrientHolder(macHolder);
+                if(isExpanded) {
+                    macHolder.expandableLayout.setVisibility(View.VISIBLE);
+                    macHolder.arrowDown.setVisibility(View.INVISIBLE);
+                    macHolder.arrowUp.setVisibility(View.VISIBLE);
+                } else {
+                    macHolder.expandableLayout.setVisibility(View.GONE);
+                    macHolder.arrowDown.setVisibility(View.VISIBLE);
+                    macHolder.arrowUp.setVisibility(View.INVISIBLE);
+                }
                 break;
             case MINVIT_TARGETS:
-                initializeMinVitHolder((MinVitHolder) holder);
-                ((MinVitHolder) holder).expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+                MinVitHolder micHolder = (MinVitHolder) holder;
+                initializeMinVitHolder(micHolder);
+                if(isExpanded) {
+                    micHolder.expandableLayout.setVisibility(View.VISIBLE);
+                    micHolder.arrowDown.setVisibility(View.INVISIBLE);
+                    micHolder.arrowUp.setVisibility(View.VISIBLE);
+                } else {
+                    micHolder.expandableLayout.setVisibility(View.GONE);
+                    micHolder.arrowDown.setVisibility(View.VISIBLE);
+                    micHolder.arrowUp.setVisibility(View.INVISIBLE);
+                }
                 break;
             case CALORIES_CONSUMED_TARGETS:
                 initializeCaloriesConsumedHOlder((CaloriesConsumedHolder) holder);
@@ -156,7 +175,7 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
     }
 
     class MacronutrientHolder extends RecyclerView.ViewHolder {
-        ImageView arrow;
+        ImageView arrowUp, arrowDown;
         ProgressBar calories_pb, protein_pb, carbs_pb, fat_pb;
         TextView calories_percentageTextView, protein_percentageTextView, carbs_percentageTextView, fat_percentageTextView,
                 caloriesTextView, proteinTextView, carbsTextView, fatTextView;
@@ -166,7 +185,8 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
         public MacronutrientHolder(@NonNull View itemView) {
             super(itemView);
 
-            arrow = itemView.findViewById(R.id.arrow);
+            arrowUp = itemView.findViewById(R.id.arrowUp);
+            arrowDown = itemView.findViewById(R.id.arrowDown);
 
             expandableLayout = itemView.findViewById(R.id.expandableLayout);
             titleLayout = itemView.findViewById(R.id.title);
@@ -220,25 +240,46 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
         holder.fat_percentageTextView.setText(String.valueOf(fat_percentage) + " %");
     }
 
-    public static class MinVitHolder extends RecyclerView.ViewHolder {
+    class MinVitHolder extends RecyclerView.ViewHolder {
+        ImageView arrowUp, arrowDown;
+        ProgressBar calories_pb, protein_pb, carbs_pb, fat_pb;
+        TextView calories_percentageTextView, protein_percentageTextView, carbs_percentageTextView, fat_percentageTextView,
+                caloriesTextView, proteinTextView, carbsTextView, fatTextView;
         LinearLayout expandableLayout;
-        TextView foodName, servings, calories, calorie_number;
-        Food food;
+        RelativeLayout titleLayout;
 
         public MinVitHolder(@NonNull View itemView) {
             super(itemView);
 
+            arrowUp = itemView.findViewById(R.id.arrowUp);
+            arrowDown = itemView.findViewById(R.id.arrowDown);
+
             expandableLayout = itemView.findViewById(R.id.expandableLayout);
+            titleLayout = itemView.findViewById(R.id.title);
 
-            foodName = itemView.findViewById(R.id.food_name);
-            servings = itemView.findViewById(R.id.servings);
-            calories = itemView.findViewById(R.id.calories_number);
-            calorie_number = itemView.findViewById(R.id.calories_unit);
+            calories_pb = itemView.findViewById(R.id.calories_pb);
+            protein_pb = itemView.findViewById(R.id.protein_pb);
+            carbs_pb = itemView.findViewById(R.id.carbs_pb);
+            fat_pb = itemView.findViewById(R.id.fat_pb);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            caloriesTextView = itemView.findViewById(R.id.calories_number);
+            proteinTextView = itemView.findViewById(R.id.protein_number);
+            carbsTextView = itemView.findViewById(R.id.carbs_number);
+            fatTextView = itemView.findViewById(R.id.fat_number);
+
+            calories_percentageTextView = itemView.findViewById(R.id.calorie_percentage);
+            protein_percentageTextView = itemView.findViewById(R.id.protein_percentage);
+            carbs_percentageTextView = itemView.findViewById(R.id.carbs_percentage);
+            fat_percentageTextView = itemView.findViewById(R.id.fat_percentage);
+
+            titleLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     int position = getAdapterPosition();
+                    ExpansionState expansionState = expansionStates.get(position);
+                    boolean arrowUp = expansionState.getIsExpanded();
+                    expansionState.setIsExpanded(!arrowUp);
+                    notifyItemChanged(getAdapterPosition());
                 }
             });
         }

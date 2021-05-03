@@ -12,6 +12,7 @@
         <activity android:name=".ResetPassword"/>
         <activity android:name=".SignUp" />
         <activity android:name=".Login" />
+        <activity android:name=".FoodItemFragment"/>
         <activity
             android:name=".Dashboard"
             android:label="@string/title_activity_dashboard" />

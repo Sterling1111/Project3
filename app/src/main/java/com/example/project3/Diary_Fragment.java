@@ -31,7 +31,7 @@ public class Diary_Fragment extends Fragment {
         recyclerView = v.findViewById(R.id.recycler_diary);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        recyclerView.setAdapter(new FoodAdapter(foods));
+        recyclerView.setAdapter(new FoodAdapter(foods, getActivity()));
         return v;
     }
 

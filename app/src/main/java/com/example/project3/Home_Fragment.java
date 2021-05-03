@@ -91,7 +91,6 @@ public class Home_Fragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         recyclerView.setAdapter(new FoodDataAdapter(foods, expansionStates));
-        if(expansionStates == null) {Log.d(TAG, "expansionStates is null in Home_Fragment");}
         return v;
     }
 
