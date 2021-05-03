@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -46,20 +47,21 @@ public class Diary_Fragment extends Fragment {
 
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private CollectionReference foodRef = firestore.collection(user.toString() + "/" + "Foods");
+    private CollectionReference foodRef;
     private FoodAdapter adapter;
 
     RecyclerView recyclerView;
 
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
+    private View v;
 
     private Vector<Food> foods;
     private Date currentDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.diary_fragment, container,false);
+        v = inflater.inflate(R.layout.diary_fragment, container,false);
         /*recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));*/
 
@@ -67,6 +69,8 @@ public class Diary_Fragment extends Fragment {
         dateButton.setText(getTodayDate().toString());
 
         initDatePicker();
+
+        foodRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(currentDate.toString()).collection("Foods");
 
         initRecyclerView(v);
 
@@ -168,8 +172,11 @@ public class Diary_Fragment extends Fragment {
                 month = month + 1;
                 String date = makeDateString(dayOfMonth, month, year);
                 dateButton.setText(date);
+                foodRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(currentDate.toString()).collection("Foods");
+                initRecyclerView(v);
             }
         };
+
 
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
