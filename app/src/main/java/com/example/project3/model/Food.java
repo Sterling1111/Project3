@@ -28,6 +28,10 @@ public class Food implements Serializable {
 
     public Food() {}
 
+    public Food(Food food) {
+        this(food.foodName, food.caloriesPerServing, food.servings, food.protein, food.totalCarb, food.totalFat);
+    }
+
     public Food(String foodName, Float caloriesPerServing, Float servings, Float protein, Float carbs, Float fat) {
         this.foodName = foodName;
         this.caloriesPerServing = caloriesPerServing;

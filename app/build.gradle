@@ -39,6 +39,7 @@ dependencies {
     implementation 'com.elpassion.android.commons:recycler:0.0.21'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13.2'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.android.volley:volley:1.2.0'
@@ -48,6 +49,7 @@ dependencies {
 
     // Firebase SDK
     implementation platform('com.google.firebase:firebase-bom:27.1.0')
+    implementation 'com.firebaseui:firebase-ui-database:4.3.2'
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-storage'
     implementation 'com.google.firebase:firebase-firestore'
@@ -55,11 +57,51 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.firebaseui:firebase-ui-auth:7.1.1'
 
-    // Firebase UI Library
-    implementation 'com.firebaseui:firebase-ui-database:7.1.1'
 
     //Volley Library
     implementation 'com.android.volley:volley:1.2.0'
+
+    implementation 'com.google.firebase:firebase-core:9.4.0'
+    // Firestore
+    implementation 'com.google.firebase:firebase-firestore:22.1.2'
+
+    // Other Firebase/Play services deps
+    implementation 'com.google.firebase:firebase-auth:20.0.4'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+
+    // FirebaseUI (for authentication)
+    implementation 'com.firebaseui:firebase-ui-auth:7.1.1'
+
+    // Support Libs
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    // FirebaseUI for Firebase Realtime Database
+    implementation 'com.firebaseui:firebase-ui-database:7.1.1'
+
+    // FirebaseUI for Cloud Firestore
+    implementation 'com.firebaseui:firebase-ui-firestore:7.1.1'
+
+    // FirebaseUI for Cloud Storage
+    implementation 'com.firebaseui:firebase-ui-storage:7.1.1'
+
+    // Android architecture components
+    implementation 'androidx.lifecycle:lifecycle-runtime:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.google.firebase:firebase-database:19.7.0'
+    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.3.1'
+
+    // Third-party libraries
+    implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+
 }
 
 // Apply the 'google-services' plugin

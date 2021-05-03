@@ -2,6 +2,7 @@ package com.example.project3;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,55 +20,50 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project3.adapter.FoodAdapter;
 import com.example.project3.model.Food;
+import com.example.project3.util.FirebaseUtil;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 import java.util.Vector;
 
-public class Diary_Fragment extends Fragment implements
-        View.OnClickListener,
-        FoodAdapter.OnFoodSelectedListener {
+public class Diary_Fragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
+    private static final String TAG = "Diary_Fragment";
+
+    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private CollectionReference foodRef = firestore.collection("Foods");
     private FoodAdapter adapter;
-    private FirebaseFirestore mFirestore;
-    private Query mQuery;
-
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
-    FirebaseUser user;
 
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
-
 
     private Vector<Food> foods;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.diary_fragment, container,false);
-        recyclerView = v.findViewById(R.id.recycler_diary);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        /*recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));*/
 
-        rootNode = FirebaseDatabase.getInstance();
-        reference = rootNode.getReference();
-        user = FirebaseAuth.getInstance().getCurrentUser();
-
-        mQuery = mFirestore.collection(user.getUid() + "/" + java.time.LocalDate.now().toString() + "/foods");
-        recyclerView.setAdapter(new FoodAdapter(foods));
         dateButton = v.findViewById(R.id.datePickerButton);
         dateButton.setText(getTodayDate());
+
         initDatePicker();
+
+        initRecyclerView(v);
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,29 +71,24 @@ public class Diary_Fragment extends Fragment implements
                 datePickerDialog.show();
             }
         });
+
+        FloatingActionButton fab = v.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), NewFoodActivity.class));
+            }
+        });
         return v;
     }
 
-    private void initRecyclerView() {
-        adapter = new FoodAdapter(mQuery, this) {
+    private void initRecyclerView(View v) {
+        Query query = foodRef;
+        FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>().setQuery(query, Food.class).build();
+        adapter = new FoodAdapter(options);
+        RecyclerView recyclerView = v.findViewById(R.id.recycler_diary);
 
-            @Override
-            protected void onDataChanged() {
-                // Show/hide content if the query returns empty.
-                if (getItemCount() == 0) {
-                    recyclerView.setVisibility(View.GONE);
-                    //mEmptyView.setVisibility(View.VISIBLE);
-                } else {
-                    recyclerView.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            protected void onError(FirebaseFirestoreException e) {
-                // who cares
-            }
-        };
-
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(adapter);
     }
@@ -108,13 +99,19 @@ public class Diary_Fragment extends Fragment implements
     }
 
     @Override
-    public void onClick(View v) {
-
+    public void onStart() {
+        super.onStart();
+        if(adapter != null) {
+            adapter.startListening();
+        }
     }
 
     @Override
-    public void onFoodSelected(DocumentSnapshot food) {
-
+    public void onStop() {
+        super.onStop();
+        if(adapter != null) {
+            adapter.stopListening();
+        }
     }
 
     private String getTodayDate() {

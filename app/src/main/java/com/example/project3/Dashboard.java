@@ -19,6 +19,10 @@ import com.example.project3.adapter.FoodAdapter;
 import com.example.project3.model.Food;
 import com.example.project3.util.FirebaseUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Vector;
 
@@ -58,8 +62,9 @@ public class Dashboard extends AppCompatActivity {
         foods.add(food2);
         foods.add(food3);
 
-        reference.child(user.getUid()).child(java.time.LocalDate.now().toString()).child("foods").setValue(food1);
+        //reference.child(user.getUid()).child(java.time.LocalDate.now().toString()).child("foods").setValue(food1);
 
+        reference.child("foods").setValue(food1);
 
         Home_Fragment home_fragment = new Home_Fragment();
         home_fragment.setFoods(foods);
