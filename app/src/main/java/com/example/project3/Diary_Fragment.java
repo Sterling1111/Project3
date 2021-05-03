@@ -37,6 +37,7 @@ import com.google.firebase.firestore.Query;
 import org.w3c.dom.Text;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Vector;
 
 public class Diary_Fragment extends Fragment {
@@ -44,7 +45,8 @@ public class Diary_Fragment extends Fragment {
     private static final String TAG = "Diary_Fragment";
 
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    private CollectionReference foodRef = firestore.collection("Foods");
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private CollectionReference foodRef = firestore.collection(user.toString() + "/" + "Foods");
     private FoodAdapter adapter;
 
     RecyclerView recyclerView;
@@ -61,7 +63,7 @@ public class Diary_Fragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));*/
 
         dateButton = v.findViewById(R.id.datePickerButton);
-        dateButton.setText(getTodayDate());
+        dateButton.setText(getTodayDate().toString());
 
         initDatePicker();
 
@@ -115,13 +117,12 @@ public class Diary_Fragment extends Fragment {
         }
     }
 
-    private String getTodayDate() {
+    private Date getTodayDate() {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
-        month = month + 1;
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        return makeDateString(day, month, year);
+        return new Date(year, month, day);
     }
 
     private String makeDateString(int day, int month, int year) {
