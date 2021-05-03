@@ -7,14 +7,18 @@
         android:icon="@drawable/ic_baseline_home_24"/>
 
     <item
-        android:id="@+id/person"
-        android:title="Me"
-        android:icon ="@drawable/ic_baseline_person_outline_24"/>
-
-    <item
         android:id="@+id/nav_diary"
         android:title="Diary"
         android:icon ="@drawable/ic_baseline_menu_book_24"/>
 
+    <item
+        android:id="@+id/nav_search"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Add Food" />
+
+    <item
+        android:id="@+id/nav_me"
+        android:title="Me"
+        android:icon ="@drawable/ic_baseline_person_outline_24"/>
 
 </menu>

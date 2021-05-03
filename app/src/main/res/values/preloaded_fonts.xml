@@ -3,7 +3,6 @@
     <array name="preloaded_fonts" translatable="false">
 
         <item>@font/antic</item>
-        <item>@font/baloo</item>
         <item>@font/coustard_black</item>
     </array>
 </resources>
