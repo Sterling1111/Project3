@@ -55,6 +55,7 @@ public class Diary_Fragment extends Fragment {
     private Button dateButton;
 
     private Vector<Food> foods;
+    private Date currentDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -163,6 +164,7 @@ public class Diary_Fragment extends Fragment {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
+                currentDate = new Date(year, month, dayOfMonth);
                 month = month + 1;
                 String date = makeDateString(dayOfMonth, month, year);
                 dateButton.setText(date);
@@ -173,6 +175,7 @@ public class Diary_Fragment extends Fragment {
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
+        currentDate = new Date(year, month, day);
 
         int style = AlertDialog.THEME_HOLO_DARK;
 
