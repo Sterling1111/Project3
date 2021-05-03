@@ -26,6 +26,7 @@ public class NewFoodActivity extends AppCompatActivity {
     private TextView fatField;
     private TextView servingsField;
     private Button addButton;
+    Food food = new Food();
     private final String TAG = Food_Fragment.class.getSimpleName();
 
     @Override
@@ -41,6 +42,16 @@ public class NewFoodActivity extends AppCompatActivity {
         servingsField = findViewById(R.id.servings_field);
         addButton = findViewById(R.id.quick_add_food_button);
 
+        if (getIntent() != null) {
+            food = (Food) getIntent().getSerializableExtra("food");
+            nameField.setText(food.getFoodName());
+            calField.setText(food.getCaloriesPerServing().toString());
+            carbField.setText(food.getTotalCarb().toString());
+            proteinField.setText(food.getProtein().toString());
+            fatField.setText(food.getTotalFat().toString());
+        } else
+            Log.e(TAG, "savedInstanceState is null");
+
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 createFood();
@@ -52,7 +63,6 @@ public class NewFoodActivity extends AppCompatActivity {
 
 
     public void createFood() {
-        Food food = new Food();
         food.setFoodName(nameField.getText().toString());
         food.setCalories(Float.parseFloat(calField.getText().toString()));
         food.setTotalCarb(Float.parseFloat(carbField.getText().toString()));

@@ -1,6 +1,7 @@
 package com.example.project3.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project3.Dashboard;
 import com.example.project3.Food_Fragment;
+import com.example.project3.NewFoodActivity;
 import com.example.project3.R;
 import com.example.project3.model.Food;
 
@@ -45,7 +47,10 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
 
             //Food_Fragment food_fragment = new Food_Fragment();
             //manager.beginTransaction().replace(R.id.fragment_container, food_fragment).commit();
-            fragmentJump(element);
+            //fragmentJump(element);
+            Intent intent = new Intent(mContext, NewFoodActivity.class);
+
+            mContext.startActivity(intent.putExtra("food", element));
         }
     }
 
