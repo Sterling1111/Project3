@@ -16,16 +16,23 @@
 package com.example.project3.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.MediaRouteButton;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Movie;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,6 +43,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project3.R;
 import com.example.project3.model.Food;
 import com.example.project3.util.FoodUtil;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
@@ -50,11 +58,13 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
 
     private int calories, protein, carbs, fat, calorie_percentage, protein_percentage, carbs_percentage, fat_percentage;
 
-    private Vector<Food> foods;
+    Vector<Food> foods;
+    Vector<ExpansionState> expansionStates;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public FoodDataAdapter(Vector<Food> foods) {
+    public FoodDataAdapter(Vector<Food> foods, Vector<ExpansionState> expansionStates) {
         this.foods = foods;
+        this.expansionStates = expansionStates;
         calories = (int) foods.stream().mapToDouble(Food::getCalories).sum();
         protein = (int) foods.stream().mapToDouble(Food::getProtein).sum();
         carbs = (int) foods.stream().mapToDouble(Food::getTotalCarb).sum();
@@ -107,41 +117,56 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Log.d(TAG, "The value of position in onBindViewHolder is: " + String.valueOf(position));
+        if(expansionStates == null) {Log.d(TAG, "expansionStates is null");}
+        boolean isExpanded = expansionStates.get(position).getIsExpanded();
         switch(position) {
             case MACRONUTRIENT_TARGETS:
-                initializeMacronutrientHolder((MacronutrientHolder) holder);
+                MacronutrientHolder macHolder = (MacronutrientHolder) holder;
+                initializeMacronutrientHolder(macHolder);
+                if(isExpanded) {
+                    macHolder.expandableLayout.setVisibility(View.VISIBLE);
+                    macHolder.arrowDown.setVisibility(View.INVISIBLE);
+                    macHolder.arrowUp.setVisibility(View.VISIBLE);
+                } else {
+                    macHolder.expandableLayout.setVisibility(View.GONE);
+                    macHolder.arrowDown.setVisibility(View.VISIBLE);
+                    macHolder.arrowUp.setVisibility(View.INVISIBLE);
+                }
                 break;
             case MINVIT_TARGETS:
-                initializeMinVitHolder((MinVitHolder) holder);
+                MinVitHolder micHolder = (MinVitHolder) holder;
+                initializeMinVitHolder(micHolder);
+                if(isExpanded) {
+                    micHolder.expandableLayout.setVisibility(View.VISIBLE);
+                    micHolder.arrowDown.setVisibility(View.INVISIBLE);
+                    micHolder.arrowUp.setVisibility(View.VISIBLE);
+                } else {
+                    micHolder.expandableLayout.setVisibility(View.GONE);
+                    micHolder.arrowDown.setVisibility(View.VISIBLE);
+                    micHolder.arrowUp.setVisibility(View.INVISIBLE);
+                }
                 break;
             case CALORIES_CONSUMED_TARGETS:
                 initializeCaloriesConsumedHOlder((CaloriesConsumedHolder) holder);
+                ((CaloriesConsumedHolder) holder).expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
                 break;
             case CALORIES_BURNED:
                 initializeCaloriesBurnedHolder((CaloriesBurnedHolder) holder);
+                ((CaloriesBurnedHolder) holder).expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
                 break;
             case CALORIES_REMAINING:
                  initializeCaloriesRemainingHolder((CaloriesRemainingHolder) holder);
+                ((CaloriesRemainingHolder) holder).expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
                  break;
             case NUTRITION_SCORES:
                 initializeNutritionScoresHolder((NutritionScoresHolder) holder);
+                ((NutritionScoresHolder) holder).expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
                 break;
             case COMPLETE_NUTRITION:
                 initializeNutritionTotalHolder((NutritionTotalHolder) holder);
+                ((NutritionTotalHolder) holder).expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
                 break;
         }
-
-        /*Food food = foods.get(position);
-        if ((position & 1) == 1) {
-            holder.getItemView().setBackgroundColor(Color.rgb(238, 233, 233));
-        } else {
-            holder.getItemView().setBackgroundColor(Color.rgb(255, 255, 255));
-        }
-        holder.foodName.setText(food.getFoodName());
-        holder.servings.setText(String.valueOf(food.getServings()) + " servings");
-        holder.calories.setText(String.valueOf(food.getServings() * food.getCaloriesPerServing()));
-        holder.calorie_number.setText("kcal");*/
     }
 
     @Override
@@ -149,13 +174,23 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
         return 7;
     }
 
-    public static class MacronutrientHolder extends RecyclerView.ViewHolder {
+    class MacronutrientHolder extends RecyclerView.ViewHolder {
+        ImageView arrowUp, arrowDown;
         ProgressBar calories_pb, protein_pb, carbs_pb, fat_pb;
-        TextView calories_percentageTextView, protein_percentageTextView, carbs_percentageTextView, fat_percentageTextView, caloriesTextView, proteinTextView, carbsTextView, fatTextView;
+        TextView calories_percentageTextView, protein_percentageTextView, carbs_percentageTextView, fat_percentageTextView,
+                caloriesTextView, proteinTextView, carbsTextView, fatTextView;
+        LinearLayout expandableLayout;
+        RelativeLayout titleLayout;
 
         public MacronutrientHolder(@NonNull View itemView) {
             super(itemView);
-            Log.d(TAG, "Just called constructor for MacronutrientHolder");
+
+            arrowUp = itemView.findViewById(R.id.arrowUp);
+            arrowDown = itemView.findViewById(R.id.arrowDown);
+
+            expandableLayout = itemView.findViewById(R.id.expandableLayout);
+            titleLayout = itemView.findViewById(R.id.title);
+
             calories_pb = itemView.findViewById(R.id.calories_pb);
             protein_pb = itemView.findViewById(R.id.protein_pb);
             carbs_pb = itemView.findViewById(R.id.carbs_pb);
@@ -171,10 +206,14 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
             carbs_percentageTextView = itemView.findViewById(R.id.carbs_percentage);
             fat_percentageTextView = itemView.findViewById(R.id.fat_percentage);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            titleLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     int position = getAdapterPosition();
+                    ExpansionState expansionState = expansionStates.get(position);
+                    boolean arrowUp = expansionState.getIsExpanded();
+                    expansionState.setIsExpanded(!arrowUp);
+                    notifyItemChanged(getAdapterPosition());
                 }
             });
         }
@@ -201,21 +240,46 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
         holder.fat_percentageTextView.setText(String.valueOf(fat_percentage) + " %");
     }
 
-    public static class MinVitHolder extends RecyclerView.ViewHolder {
-        TextView foodName, servings, calories, calorie_number;
-        Food food;
+    class MinVitHolder extends RecyclerView.ViewHolder {
+        ImageView arrowUp, arrowDown;
+        ProgressBar calories_pb, protein_pb, carbs_pb, fat_pb;
+        TextView calories_percentageTextView, protein_percentageTextView, carbs_percentageTextView, fat_percentageTextView,
+                caloriesTextView, proteinTextView, carbsTextView, fatTextView;
+        LinearLayout expandableLayout;
+        RelativeLayout titleLayout;
 
         public MinVitHolder(@NonNull View itemView) {
             super(itemView);
-            foodName = itemView.findViewById(R.id.food_name);
-            servings = itemView.findViewById(R.id.servings);
-            calories = itemView.findViewById(R.id.calories_number);
-            calorie_number = itemView.findViewById(R.id.calories_unit);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            arrowUp = itemView.findViewById(R.id.arrowUp);
+            arrowDown = itemView.findViewById(R.id.arrowDown);
+
+            expandableLayout = itemView.findViewById(R.id.expandableLayout);
+            titleLayout = itemView.findViewById(R.id.title);
+
+            calories_pb = itemView.findViewById(R.id.calories_pb);
+            protein_pb = itemView.findViewById(R.id.protein_pb);
+            carbs_pb = itemView.findViewById(R.id.carbs_pb);
+            fat_pb = itemView.findViewById(R.id.fat_pb);
+
+            caloriesTextView = itemView.findViewById(R.id.calories_number);
+            proteinTextView = itemView.findViewById(R.id.protein_number);
+            carbsTextView = itemView.findViewById(R.id.carbs_number);
+            fatTextView = itemView.findViewById(R.id.fat_number);
+
+            calories_percentageTextView = itemView.findViewById(R.id.calorie_percentage);
+            protein_percentageTextView = itemView.findViewById(R.id.protein_percentage);
+            carbs_percentageTextView = itemView.findViewById(R.id.carbs_percentage);
+            fat_percentageTextView = itemView.findViewById(R.id.fat_percentage);
+
+            titleLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     int position = getAdapterPosition();
+                    ExpansionState expansionState = expansionStates.get(position);
+                    boolean arrowUp = expansionState.getIsExpanded();
+                    expansionState.setIsExpanded(!arrowUp);
+                    notifyItemChanged(getAdapterPosition());
                 }
             });
         }
@@ -232,9 +296,11 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
     public static class CaloriesConsumedHolder extends RecyclerView.ViewHolder {
         TextView foodName, servings, calories, calorie_number;
         Food food;
+        LinearLayout expandableLayout;
 
         public CaloriesConsumedHolder(@NonNull View itemView) {
             super(itemView);
+            expandableLayout = itemView.findViewById(R.id.expandableLayout);
             foodName = itemView.findViewById(R.id.food_name);
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
@@ -260,9 +326,11 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
     public static class CaloriesBurnedHolder extends RecyclerView.ViewHolder {
         TextView foodName, servings, calories, calorie_number;
         Food food;
+        LinearLayout expandableLayout;
 
         public CaloriesBurnedHolder(@NonNull View itemView) {
             super(itemView);
+            expandableLayout = itemView.findViewById(R.id.expandableLayout);
             foodName = itemView.findViewById(R.id.food_name);
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
@@ -288,9 +356,11 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
     public static class CaloriesRemainingHolder extends RecyclerView.ViewHolder {
         TextView foodName, servings, calories, calorie_number;
         Food food;
+        LinearLayout expandableLayout;
 
         public CaloriesRemainingHolder(@NonNull View itemView) {
             super(itemView);
+            expandableLayout = itemView.findViewById(R.id.expandableLayout);
             foodName = itemView.findViewById(R.id.food_name);
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
@@ -317,9 +387,11 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
     public static class NutritionScoresHolder extends RecyclerView.ViewHolder {
         TextView foodName, servings, calories, calorie_number;
         Food food;
+        LinearLayout expandableLayout;
 
         public NutritionScoresHolder(@NonNull View itemView) {
             super(itemView);
+            expandableLayout = itemView.findViewById(R.id.expandableLayout);
             foodName = itemView.findViewById(R.id.food_name);
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
@@ -345,9 +417,11 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
     public static class NutritionTotalHolder extends RecyclerView.ViewHolder {
         TextView foodName, servings, calories, calorie_number;
         Food food;
+        LinearLayout expandableLayout;
 
         public NutritionTotalHolder(@NonNull View itemView) {
             super(itemView);
+            expandableLayout = itemView.findViewById(R.id.expandableLayout);
             foodName = itemView.findViewById(R.id.food_name);
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
