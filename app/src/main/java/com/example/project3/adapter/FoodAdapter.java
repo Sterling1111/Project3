@@ -62,7 +62,7 @@ public class FoodAdapter extends FirestoreRecyclerAdapter<Food, FoodAdapter.Food
     @NonNull
     @Override
     public FoodHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_item_fragment, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_list_item, parent, false);
         return new FoodHolder(v);
     }
 
@@ -71,7 +71,7 @@ public class FoodAdapter extends FirestoreRecyclerAdapter<Food, FoodAdapter.Food
 
         public FoodHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.food_name);
+            name = itemView.findViewById(R.id.name_of_food);
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
         }

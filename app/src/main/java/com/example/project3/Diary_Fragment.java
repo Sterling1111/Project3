@@ -47,6 +47,8 @@ public class Diary_Fragment extends Fragment {
     private CollectionReference foodRef = firestore.collection("Foods");
     private FoodAdapter adapter;
 
+    RecyclerView recyclerView;
+
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
 
@@ -86,9 +88,8 @@ public class Diary_Fragment extends Fragment {
         Query query = foodRef;
         FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>().setQuery(query, Food.class).build();
         adapter = new FoodAdapter(options);
-        RecyclerView recyclerView = v.findViewById(R.id.recycler_diary);
+        recyclerView = v.findViewById(R.id.recycler_diary);
 
-        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(adapter);
     }

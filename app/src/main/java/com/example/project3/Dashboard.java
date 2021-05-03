@@ -64,7 +64,7 @@ public class Dashboard extends AppCompatActivity {
 
         //reference.child(user.getUid()).child(java.time.LocalDate.now().toString()).child("foods").setValue(food1);
 
-        reference.child("foods").setValue(food1);
+        //reference.child("foods").setValue(food1);
 
         Home_Fragment home_fragment = new Home_Fragment();
         home_fragment.setFoods(foods);
