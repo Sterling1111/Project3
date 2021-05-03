@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/quick_add_menu_button"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:title="@string/add_food"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/sign_out"
         android:icon="@drawable/ic_baseline_home_24"
         android:title="@string/sign_out"/>
