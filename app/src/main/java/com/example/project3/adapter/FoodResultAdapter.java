@@ -33,14 +33,14 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
         public final TextView foodResultView;
 
         /**
-         *
+         * instance of the adapter class associated with each ViewHolder object
          */
         final FoodResultAdapter mAdapter;
 
         /**
-         *
-         * @param itemView
-         * @param adapter
+         * constructs the FoodResultHolder and sets an OnClickListener
+         * @param itemView the View object for the Holder
+         * @param adapter the FoodResultAdapter saved in each Holder
          */
         public FoodResultHolder(View itemView, FoodResultAdapter adapter) {
             super(itemView);
@@ -50,7 +50,7 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
         }
 
         /**
-         *
+         * gets the Food object associated with the cell that was clicked and starts a NewFoodActivity
          * @param v
          */
         @Override
@@ -66,24 +66,24 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
     }
 
     /**
-     *
+     * data structure that holds all Food objects initialized in Search_Fragment
      */
     private final Vector<Food> mFoodList;
 
     /**
-     *
+     * saves the LayoutInflater from the context fo the Activity that calls FoodResultAdapter
      */
     private LayoutInflater mInflater;
 
     /**
-     *
+     * saves the Context of the activity that calls FoodResultAdapter
      */
     private Context mContext;
 
     /**
-     *
-     * @param context
-     * @param foodList
+     * FoodResultAdapter constructor
+     * @param context initializes mContext and mInflater
+     * @param foodList initializes mFoodList
      */
     public FoodResultAdapter(Context context, Vector<Food> foodList) {
         mInflater = LayoutInflater.from(context);
@@ -93,10 +93,10 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
     }
 
     /**
-     *
-     * @param parent
-     * @param viewType
-     * @return
+     * creates a FoodResultHolder for each cell when the view is created
+     * @param parent used as the root to initialize a View
+     * @param viewType is not used
+     * @return returns a FoodResultHolder for each ViewHolder
      */
     @NonNull
     @Override
@@ -107,9 +107,9 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
     }
 
     /**
-     *
-     * @param holder
-     * @param position
+     * sets the text for each foodResultView with its position in the RecyclerView and mFoodList
+     * @param holder a FoodResultHolder at a certain position
+     * @param position the index number of the FoodResultHolder
      */
     @Override
     public void onBindViewHolder(@NonNull FoodResultAdapter.FoodResultHolder holder, int position) {
@@ -119,8 +119,8 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
     }
 
     /**
-     *
-     * @return
+     * gets the size of mFoodList so the RecyclerView knows how many cells it needs
+     * @return the size of mFoodList
      */
     @Override
     public int getItemCount() {

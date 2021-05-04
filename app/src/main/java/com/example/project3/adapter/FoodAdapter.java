@@ -31,12 +31,13 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 /**
- *
+ * used to display the information stored in Firestore for a particular day that is automatically
+ * updated when a document is added to the collection
  */
 public class FoodAdapter extends FirestoreRecyclerAdapter<Food, FoodAdapter.FoodHolder> {
 
     /**
-     *
+     * constructor for FoodAdapter
      * @param options
      */
     public FoodAdapter(@NonNull FirestoreRecyclerOptions<Food> options) {

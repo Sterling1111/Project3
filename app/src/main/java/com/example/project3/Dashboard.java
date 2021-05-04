@@ -23,15 +23,35 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Date;
 import java.util.Vector;
 
+/**
+ *
+ */
 public class Dashboard extends AppCompatActivity {
 
-    //static variable to represent the current date user is examining
+    /**
+     *
+     */
     static Date currentDate;
 
+    /**
+     *
+     */
     FirebaseDatabase rootNode;
+
+    /**
+     *
+     */
     DatabaseReference reference;
+
+    /**
+     *
+     */
     FirebaseUser user;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +76,11 @@ public class Dashboard extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home_fragment).commit();
     }
 
+    /**
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -63,6 +88,11 @@ public class Dashboard extends AppCompatActivity {
         return true;
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -79,41 +109,41 @@ public class Dashboard extends AppCompatActivity {
         return true;
     }
 
+    /**
+     *
+     */
     private void startSignIn() {
         Intent intent = new Intent(Dashboard.this, Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
+    /**
+     *
+     */
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
+        Fragment selectedFragment = null;
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            item -> {
-                Fragment selectedFragment = null;
-                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-                switch(item.getItemId()) {
-                    case R.id.nav_home:
-                        selectedFragment = new Home_Fragment();
-                        toolbar.setTitle("Home");
-                        break;
-                    case R.id.nav_diary:
-                        selectedFragment = new Diary_Fragment();
-                        toolbar.setTitle("Diary");
-                        break;
-                    case R.id.nav_me:
-                        selectedFragment = new Me_Fragment();
-                        toolbar.setTitle("Me");
-                        break;
-                    case R.id.nav_search:
-                        selectedFragment = new Search_Fragment();
-                        toolbar.setTitle("Search");
-                        break;
-                }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
-                return true;
-            };
-
-    public void launchFoodItemFragment() {
-
-    }
+        switch(item.getItemId()) {
+            case R.id.nav_home:
+                selectedFragment = new Home_Fragment();
+                toolbar.setTitle("Home");
+                break;
+            case R.id.nav_diary:
+                selectedFragment = new Diary_Fragment();
+                toolbar.setTitle("Diary");
+                break;
+            case R.id.nav_me:
+                selectedFragment = new Me_Fragment();
+                toolbar.setTitle("Me");
+                break;
+            case R.id.nav_search:
+                selectedFragment = new Search_Fragment();
+                toolbar.setTitle("Search");
+                break;
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+        return true;
+    };
 }

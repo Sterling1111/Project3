@@ -25,22 +25,63 @@ import com.google.firebase.firestore.Query;
 
 import java.util.Date;
 
+/**
+ *
+ */
 public class Diary_Fragment extends Fragment {
 
+    /**
+     *
+     */
     private static final String TAG = "Diary_Fragment";
 
+    /**
+     *
+     */
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+    /**
+     *
+     */
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+    /**
+     *
+     */
     private CollectionReference foodRef;
+
+    /**
+     *
+     */
     private FoodAdapter adapter;
 
-    RecyclerView recyclerView;
+    /**
+     *
+     */
+    private RecyclerView recyclerView;
 
+    /**
+     *
+     */
     private DatePickerDialog datePickerDialog;
+
+    /**
+     *
+     */
     private Button dateButton;
+
+    /**
+     *
+     */
     private View v;
 
-
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -58,6 +99,10 @@ public class Diary_Fragment extends Fragment {
         return v;
     }
 
+    /**
+     *
+     * @param v
+     */
     private void initRecyclerView(View v) {
         Query query = foodRef;
         FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>().setQuery(query,
@@ -69,6 +114,9 @@ public class Diary_Fragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     *
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -77,6 +125,9 @@ public class Diary_Fragment extends Fragment {
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void onStop() {
         super.onStop();
@@ -132,24 +183,23 @@ public class Diary_Fragment extends Fragment {
         return "ERROR";
     }
 
-
+    /**
+     *
+     */
     private void initDatePicker() {
         //The listener used to indicate the user has finished selecting a date
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
+        DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
 
-                Dashboard.currentDate = new Date(year - 1900, month, dayOfMonth);
-                String date = makeDateString(dayOfMonth, month, year);
-                dateButton.setText(date);
+            Dashboard.currentDate = new Date(year - 1900, month, dayOfMonth);
+            String date = makeDateString(dayOfMonth, month, year);
+            dateButton.setText(date);
 
-                foodRef = firestore.collection("Users").document(user.getUid())
-                        .collection("Dates").document(Dashboard.currentDate.toString())
-                        .collection("Foods");
-                FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>()
-                        .setQuery(foodRef, Food.class).build();
-                adapter.updateOptions(options);
-            }
+            foodRef = firestore.collection("Users").document(user.getUid())
+                    .collection("Dates").document(Dashboard.currentDate.toString())
+                    .collection("Foods");
+            FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>()
+                    .setQuery(foodRef, Food.class).build();
+            adapter.updateOptions(options);
         };
 
 

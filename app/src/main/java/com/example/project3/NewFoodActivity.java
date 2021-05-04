@@ -16,63 +16,59 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
- *
+ * Adds Food objects to FireStore that can be called from Search_Fragment, which will pass in a Food
+ * object and populate the TextViews or from the quick_add toolbar button with empty TextViews
  */
 public class NewFoodActivity extends AppCompatActivity {
 
     /**
-     *
+     * gets the current logged in user
      */
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     /**
-     *
+     * holds the name of the Food
      */
     private TextView nameField;
 
     /**
-     *
+     * holds the number of Calories
      */
     private TextView calField;
 
     /**
-     *
+     * holds the number of grams of carbohydrates per serving
      */
     private TextView carbField;
 
     /**
-     *
+     * holds the number of grams of protein per serving
      */
     private TextView proteinField;
 
     /**
-     *
+     * holds the number of grams of fat per serving
      */
     private TextView fatField;
 
     /**
-     *
+     * holds the number of servings
      */
     private TextView servingsField;
 
     /**
-     *
-     */
-    private Button addButton;
-
-    /**
-     *
+     * can hold a Food object passed in from Search_Fragment and created in createFood
      */
     Food food = null;
 
     /**
-     *
+     * used to write messages to Log
      */
     private final String TAG = NewFoodActivity.class.getSimpleName();
 
     /**
-     *
-     * @param savedInstanceState
+     * creates the NewFoodActivity View when the activity is started and initializes the layout
+     * @param savedInstanceState is used by Search_Fragment to pass in a Food object
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +81,11 @@ public class NewFoodActivity extends AppCompatActivity {
         proteinField = findViewById(R.id.protein_field);
         fatField = findViewById(R.id.fats_field);
         servingsField = findViewById(R.id.servings_field);
-        addButton = findViewById(R.id.quick_add_food_button);
 
+        Button addButton = findViewById(R.id.quick_add_food_button);
+
+        //check to see if a Food was placed in the Intent's Extras, if so initalize its values to
+        // the TextViews
         food = (Food) getIntent().getSerializableExtra("food");
         if (food != null) {
             food = (Food) getIntent().getSerializableExtra("food");
@@ -103,7 +102,8 @@ public class NewFoodActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * creates a new Food object from the TextViews and then adds to Firestore for the current
+     * selected date
      */
     public void createFood() {
         Float calories = Float.parseFloat(calField.getText().toString());

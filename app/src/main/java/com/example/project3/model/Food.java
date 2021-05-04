@@ -7,50 +7,49 @@ import java.io.Serializable;
 public class Food implements Serializable {
 
     /**
-     *
+     * a description of the Food object
      */
     private String foodName;
 
     /**
-     *
+     * number of servings of the Food, serving size is 100g
      */
     private Float servings;
 
     /**
-     *
+     * the number of calories per serving in kilocalories
      */
     private Float caloriesPerServing;
 
     /**
-     *
+     * gram of fat per serving
      */
     private Float totalFat;
 
     /**
-     *
+     * grams of carbohydrates per serving
      */
     private Float totalCarb;
 
     /**
-     *
+     * grams of protein per serving
      */
     private Float protein;
 
     /**
-     *
+     * an empty constructor that leaves all fields null
      */
     public Food() {}
 
     /**
-     *
-     * @param food
+     * a copy constructor
+     * @param food Food object to be copied
      */
     public Food(Food food) {
         this(food.foodName, food.caloriesPerServing, food.servings, food.protein, food.totalCarb, food.totalFat);
     }
 
     /**
-     * constructor
      *
      * @param foodName a string that represents the name of the food
      * @param caloriesPerServing a float that represents the calories per serving of the food
