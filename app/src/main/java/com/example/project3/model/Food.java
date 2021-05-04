@@ -83,10 +83,6 @@ public class Food implements Serializable {
         this.caloriesPerServing = caloriesPerServing;
     }
 
-    public void setCalories(Float caloriesPerServing) {
-        this.caloriesPerServing = caloriesPerServing;
-    }
-
     public void setServings(Float servings) {
         this.servings = servings;
     }

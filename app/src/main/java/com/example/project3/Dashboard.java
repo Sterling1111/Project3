@@ -71,7 +71,6 @@ public class Dashboard extends AppCompatActivity {
         //reference.child("foods").setValue(food1);
 
         Home_Fragment home_fragment = new Home_Fragment();
-        home_fragment.setFoods(foods);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home_fragment).commit();
     }
@@ -131,7 +130,6 @@ public class Dashboard extends AppCompatActivity {
                         case R.id.nav_home:
                             selectedFragment = new Home_Fragment();
                             toolbar.setTitle("Home");
-                            ((Home_Fragment) selectedFragment).setFoods(foods);
                             break;
                         case R.id.nav_diary:
                             selectedFragment = new Diary_Fragment();
