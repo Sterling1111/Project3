@@ -6,13 +6,199 @@
     android:background="@android:color/black"
     tools:context="com.example.project3.Diary_Fragment">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_home"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:background="@color/light_gray"/>
+            <Button
+                android:id="@+id/datePickerButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/today"
+                android:textColor="@color/black" />
 
+            <RelativeLayout
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:layout_gravity="center"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/macronutrient_targets"
+                    android:layout_marginBottom="13dp"
+                    android:layout_marginTop="13dp"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/expandableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/calories_number"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAlignment="textStart"
+                        android:text="1075.5/2000 kcal" />
+
+                    <TextView
+                        android:id="@+id/calorie_percentage"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="88%"
+                        android:textAlignment="textEnd" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/calories_pb"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:radius="5dp"
+                    android:backgroundTint="@color/greySecondary"
+                    android:progressTint="@color/yellow"
+                    android:layout_marginBottom="10dp"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="@string/Protein" />
+
+                    <TextView
+                        android:id="@+id/protein_number"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAlignment="textStart"
+                        android:text="36.5/50 g" />
+
+                    <TextView
+                        android:id="@+id/protein_percentage"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="88%"
+                        android:textAlignment="textEnd" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/protein_pb"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:radius="5dp"
+                    android:progressTint="@color/green"
+                    android:layout_marginBottom="10dp"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="@string/carbs" />
+
+                    <TextView
+                        android:id="@+id/carbs_number"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAlignment="textStart"
+                        android:text="128/200 g" />
+
+                    <TextView
+                        android:id="@+id/carbs_percentage"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="88%"
+                        android:textAlignment="textEnd" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/carbs_pb"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:radius="5dp"
+                    android:progressTint="@color/blue"
+                    android:layout_marginBottom="10dp"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="@string/Fat" />
+
+                    <TextView
+                        android:id="@+id/fat_number"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAlignment="textStart"
+                        android:text="21/35 g" />
+
+                    <TextView
+                        android:id="@+id/fat_percentage"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="88%"
+                        android:textAlignment="textEnd" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/fat_pb"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:radius="5dp"
+                    android:progressTint="@color/red"
+                    android:layout_marginBottom="10dp"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
 
 </RelativeLayout>
