@@ -43,6 +43,10 @@ public class Food implements Serializable {
      * @param carbs a float to represents grams of carbs
      * @param fat a float to represent the grams of fat
      */
+    public Food(Food food) {
+        this(food.foodName, food.caloriesPerServing, food.servings, food.protein, food.totalCarb, food.totalFat);
+    }
+
     public Food(String foodName, Float caloriesPerServing, Float servings, Float protein, Float carbs, Float fat) {
         this.foodName = foodName;
         this.caloriesPerServing = caloriesPerServing;

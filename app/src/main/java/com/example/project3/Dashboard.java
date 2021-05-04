@@ -2,6 +2,7 @@ package com.example.project3;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,13 +20,20 @@ import com.example.project3.adapter.FoodAdapter;
 import com.example.project3.model.Food;
 import com.example.project3.util.FirebaseUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Date;
 import java.util.Vector;
 
 public class Dashboard extends AppCompatActivity {
 
     private final Vector<Food> foods = new Vector<>();
     private final Vector<ExpansionState> expansionStates = new Vector<>();
+    //static varibale to represent the current date user is examining
+    static Date currentDate;
 
     FirebaseDatabase rootNode;
     DatabaseReference reference;
@@ -58,8 +66,15 @@ public class Dashboard extends AppCompatActivity {
         foods.add(food2);
         foods.add(food3);
 
-        reference.child(user.getUid()).child(java.time.LocalDate.now().toString()).child("foods").setValue(food1);
+        //initialize currentDate to today's date
+        Date tempDate = new Date();
+        currentDate = new Date(tempDate.getYear(), tempDate.getMonth(), tempDate.getDate());
+        Log.e(Dashboard.class.getSimpleName(), "Check");
 
+
+        //reference.child(user.getUid()).child(java.time.LocalDate.now().toString()).child("foods").setValue(food1);
+
+        //reference.child("foods").setValue(food1);
 
         Home_Fragment home_fragment = new Home_Fragment();
         home_fragment.setFoods(foods);
@@ -79,12 +94,10 @@ public class Dashboard extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         switch(item.getItemId()){
             case R.id.quick_add_menu_button:
-                toolbar.setTitle("Quick Add");
-                Toast.makeText(this, "You clicked add", Toast.LENGTH_SHORT).show();
-                switchContent(R.id.fragment_container, new Food_Fragment());
+                startActivity(new Intent(this, NewFoodActivity.class));
                 break;
 
             case R.id.sign_out:
@@ -108,11 +121,6 @@ public class Dashboard extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void switchContent(int id, Food_Fragment frag) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(id, frag, frag.toString());
-        ft.commit();
-    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {

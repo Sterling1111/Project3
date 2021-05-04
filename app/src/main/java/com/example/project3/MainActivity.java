@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         reference.setValue("What the hell bro");
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Log.d(TAG, user.getUid());
+       // Log.d(TAG, user.getUid());
 
         //TODO: reimplement login activity
         if (user == null) {

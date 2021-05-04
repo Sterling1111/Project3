@@ -6,6 +6,7 @@ package com.example.project3;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,55 +24,58 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project3.adapter.FoodAdapter;
 import com.example.project3.model.Food;
+import com.example.project3.util.FirebaseUtil;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Vector;
 
-public class Diary_Fragment extends Fragment implements
-        View.OnClickListener,
-        FoodAdapter.OnFoodSelectedListener {
+public class Diary_Fragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
+    private static final String TAG = "Diary_Fragment";
+
+    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private CollectionReference foodRef;
     private FoodAdapter adapter;
-    private FirebaseFirestore mFirestore;
-    private Query mQuery;
 
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
-    FirebaseUser user;
+    RecyclerView recyclerView;
 
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
-
+    private View v;
 
     private Vector<Food> foods;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.diary_fragment, container,false);
-        recyclerView = v.findViewById(R.id.recycler_diary);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        v = inflater.inflate(R.layout.diary_fragment, container,false);
+        /*recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));*/
 
-        rootNode = FirebaseDatabase.getInstance();
-        reference = rootNode.getReference();
-        user = FirebaseAuth.getInstance().getCurrentUser();
-
-        mQuery = mFirestore.collection(user.getUid() + "/" + java.time.LocalDate.now().toString() + "/foods");
-        recyclerView.setAdapter(new FoodAdapter(foods));
         dateButton = v.findViewById(R.id.datePickerButton);
-        dateButton.setText(getTodayDate());
+
         initDatePicker();
+
+        foodRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(Dashboard.currentDate.toString()).collection("Foods");
+
+        initRecyclerView(v);
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,28 +83,22 @@ public class Diary_Fragment extends Fragment implements
                 datePickerDialog.show();
             }
         });
+
+        FloatingActionButton fab = v.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), NewFoodActivity.class));
+            }
+        });
         return v;
     }
 
-    private void initRecyclerView() {
-        adapter = new FoodAdapter(mQuery, this) {
-
-            @Override
-            protected void onDataChanged() {
-                // Show/hide content if the query returns empty.
-                if (getItemCount() == 0) {
-                    recyclerView.setVisibility(View.GONE);
-                    //mEmptyView.setVisibility(View.VISIBLE);
-                } else {
-                    recyclerView.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            protected void onError(FirebaseFirestoreException e) {
-                // who cares
-            }
-        };
+    private void initRecyclerView(View v) {
+        Query query = foodRef;
+        FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>().setQuery(query, Food.class).build();
+        adapter = new FoodAdapter(options);
+        recyclerView = v.findViewById(R.id.recycler_diary);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(adapter);
@@ -112,26 +110,31 @@ public class Diary_Fragment extends Fragment implements
     }
 
     @Override
-    public void onClick(View v) {
-
+    public void onStart() {
+        super.onStart();
+        if(adapter != null) {
+            adapter.startListening();
+        }
     }
 
     @Override
-    public void onFoodSelected(DocumentSnapshot food) {
-
+    public void onStop() {
+        super.onStop();
+        if(adapter != null) {
+            adapter.stopListening();
+        }
     }
 
     /**
      *
      * @return date in Gregorian form
      */
-    private String getTodayDate() {
+    private Date getTodayDate() {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
-        month = month + 1;
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        return makeDateString(day, month, year);
+        return new Date(year, month, day);
     }
 
     /**
@@ -187,28 +190,29 @@ public class Diary_Fragment extends Fragment implements
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
-                //january is month 0 so i did month+1 to make january 1
-                month = month + 1;
+
+                //currentDate = new Date(year, month, dayOfMonth);
+                Dashboard.currentDate = new Date(year - 1900, month, dayOfMonth);
                 String date = makeDateString(dayOfMonth, month, year);
                 dateButton.setText(date);
+                //foodRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(currentDate.toString()).collection("Foods");
+                foodRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(Dashboard.currentDate.toString()).collection("Foods");
+                FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>().setQuery(foodRef, Food.class).build();
+                adapter.updateOptions(options);
             }
         };
 
-        //Calendar.getInstance() gets the current day that gets saved as cal
-        Calendar cal = Calendar.getInstance();
-        //cal.get(Calendar.YEAR) gets present year
-        int year = cal.get(Calendar.YEAR);
-        //cal.get(Calendar.MONTH) gets present month
-        int month = cal.get(Calendar.MONTH);
-        //cal.get(Calendar.DAY_OF_MONTH) gets present day of month
-        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        int year = Dashboard.currentDate.getYear();
+        int month = Dashboard.currentDate.getMonth();
+        int day = Dashboard.currentDate.getDate();
+
+        dateButton.setText(makeDateString(day, month, year + 1900));
 
         int style = AlertDialog.THEME_HOLO_DARK;
 
-        datePickerDialog = new DatePickerDialog(getActivity(), style, dateSetListener, year, month, day);
 
-        //this line of of code is so that the user can't select a date in the future. It is commented out for now.
-        //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog = new DatePickerDialog(getActivity(), style, dateSetListener, year + 1900, month, day);
 
     }
 }

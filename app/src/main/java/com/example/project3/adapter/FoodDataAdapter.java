@@ -301,7 +301,7 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
         public CaloriesConsumedHolder(@NonNull View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expandableLayout);
-            foodName = itemView.findViewById(R.id.food_name);
+            foodName = itemView.findViewById(R.id.name_of_food);
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
             calorie_number = itemView.findViewById(R.id.calories_unit);
@@ -331,7 +331,7 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
         public CaloriesBurnedHolder(@NonNull View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expandableLayout);
-            foodName = itemView.findViewById(R.id.food_name);
+            foodName = itemView.findViewById(R.id.name_of_food);
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
             calorie_number = itemView.findViewById(R.id.calories_unit);
@@ -361,7 +361,7 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
         public CaloriesRemainingHolder(@NonNull View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expandableLayout);
-            foodName = itemView.findViewById(R.id.food_name);
+            foodName = itemView.findViewById(R.id.name_of_food);
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
             calorie_number = itemView.findViewById(R.id.calories_unit);
@@ -392,7 +392,7 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
         public NutritionScoresHolder(@NonNull View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expandableLayout);
-            foodName = itemView.findViewById(R.id.food_name);
+            foodName = itemView.findViewById(R.id.name_of_food);
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
             calorie_number = itemView.findViewById(R.id.calories_unit);
@@ -422,7 +422,7 @@ public class FoodDataAdapter extends RecyclerView.Adapter {
         public NutritionTotalHolder(@NonNull View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expandableLayout);
-            foodName = itemView.findViewById(R.id.food_name);
+            foodName = itemView.findViewById(R.id.name_of_food);
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
             calorie_number = itemView.findViewById(R.id.calories_unit);
