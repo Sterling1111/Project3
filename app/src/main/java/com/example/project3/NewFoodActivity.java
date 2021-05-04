@@ -80,14 +80,17 @@ public class NewFoodActivity extends AppCompatActivity {
         food.setServings(Float.parseFloat(carbField.getText().toString()));
         food.setCaloriesPerServing(food.getCalories() / food.getServings());
 
-        Calendar cal = Calendar.getInstance();
+       /* Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
         Date date = new Date(year, month, day);
 
+        */
+
+
         Task<DocumentReference> foodsRef = FirebaseFirestore.getInstance().collection("Users").document(user.getUid()).collection("Dates").
-                document(date.toString()).collection("Foods").add(new Food(food));
+                document(Dashboard.currentDate.toString()).collection("Foods").add(new Food(food));
         finish();
     }
 }

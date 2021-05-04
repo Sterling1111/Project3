@@ -2,6 +2,7 @@ package com.example.project3;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,12 +25,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Date;
 import java.util.Vector;
 
 public class Dashboard extends AppCompatActivity {
 
     private final Vector<Food> foods = new Vector<>();
     private final Vector<ExpansionState> expansionStates = new Vector<>();
+    //static varibale to represent the current date user is examining
+    static Date currentDate;
 
     FirebaseDatabase rootNode;
     DatabaseReference reference;
@@ -61,6 +65,12 @@ public class Dashboard extends AppCompatActivity {
         foods.add(food1);
         foods.add(food2);
         foods.add(food3);
+
+        //initialize currentDate to today's date
+        Date tempDate = new Date();
+        currentDate = new Date(tempDate.getYear(), tempDate.getMonth(), tempDate.getDate());
+        Log.e(Dashboard.class.getSimpleName(), "Check");
+
 
         //reference.child(user.getUid()).child(java.time.LocalDate.now().toString()).child("foods").setValue(food1);
 

@@ -22,6 +22,7 @@ import com.example.project3.adapter.FoodAdapter;
 import com.example.project3.model.Food;
 import com.example.project3.util.FirebaseUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,7 +58,6 @@ public class Diary_Fragment extends Fragment {
     private View v;
 
     private Vector<Food> foods;
-    private Date currentDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,11 +66,11 @@ public class Diary_Fragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));*/
 
         dateButton = v.findViewById(R.id.datePickerButton);
-        dateButton.setText(getTodayDate().toString());
+        dateButton.setText(Dashboard.currentDate.toString());
 
         initDatePicker();
 
-        foodRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(currentDate.toString()).collection("Foods");
+        foodRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(Dashboard.currentDate.toString()).collection("Foods");
 
         initRecyclerView(v);
 
@@ -168,25 +168,33 @@ public class Diary_Fragment extends Fragment {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
-                currentDate = new Date(year, month, dayOfMonth);
-                month = month + 1;
+                //currentDate = new Date(year, month, dayOfMonth);
+                Dashboard.currentDate = new Date(year - 1900, month, dayOfMonth);
                 String date = makeDateString(dayOfMonth, month, year);
-                dateButton.setText(date);
-                foodRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(currentDate.toString()).collection("Foods");
+                dateButton.setText(Dashboard.currentDate.toString());
+                //foodRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(currentDate.toString()).collection("Foods");
+                foodRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(Dashboard.currentDate.toString()).collection("Foods");
                 initRecyclerView(v);
             }
         };
 
 
+        /*
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
         currentDate = new Date(year, month, day);
 
+         */
+        int year = Dashboard.currentDate.getYear();
+        int month = Dashboard.currentDate.getMonth();
+        int day = Dashboard.currentDate.getDate();
+
         int style = AlertDialog.THEME_HOLO_DARK;
 
-        datePickerDialog = new DatePickerDialog(getActivity(), style, dateSetListener, year, month, day);
+
+        datePickerDialog = new DatePickerDialog(getActivity(), style, dateSetListener, year + 1900, month, day);
         //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
     }
