@@ -162,7 +162,5 @@ public class Diary_Fragment extends Fragment {
         datePickerDialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_LIGHT,
                 dateSetListener, year + 1900, month, day);
 
-
-
     }
 }

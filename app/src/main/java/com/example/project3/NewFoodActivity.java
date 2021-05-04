@@ -1,15 +1,10 @@
 package com.example.project3;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -17,12 +12,8 @@ import com.example.project3.model.Food;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.Calendar;
-import java.util.Date;
 
 public class NewFoodActivity extends AppCompatActivity {
 
@@ -70,8 +61,6 @@ public class NewFoodActivity extends AppCompatActivity {
 
     }
 
-
-
     public void createFood() {
         Float calories = Float.parseFloat(calField.getText().toString());
         food = new Food();
@@ -81,15 +70,6 @@ public class NewFoodActivity extends AppCompatActivity {
         food.setTotalFat(Float.parseFloat(fatField.getText().toString()));
         food.setServings(Float.parseFloat(carbField.getText().toString()));
         food.setCaloriesPerServing(calories / food.getServings());
-
-       /* Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        Date date = new Date(year, month, day);
-
-        */
-
 
         Task<DocumentReference> foodsRef = FirebaseFirestore.getInstance().collection("Users").document(user.getUid()).collection("Dates").
                 document(Dashboard.currentDate.toString()).collection("Foods").add(new Food(food));

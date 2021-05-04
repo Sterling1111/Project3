@@ -1,12 +1,12 @@
-/**
- * Food.java is the main entity that we will use to retrieve the data for the food that is added.
- */
+
 
 package com.example.project3.model;
 
 import java.io.Serializable;
 
-
+/**
+ * Food.java is the main entity that we will use to retrieve the data for the food that is added.
+ */
 public class Food implements Serializable {
     private String foodName;
     private Float servings;

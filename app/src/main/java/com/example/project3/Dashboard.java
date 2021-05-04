@@ -25,9 +25,7 @@ import java.util.Vector;
 
 public class Dashboard extends AppCompatActivity {
 
-    private final Vector<Food> foods = new Vector<>();
-
-    //static varibale to represent the current date user is examining
+    //static variable to represent the current date user is examining
     static Date currentDate;
 
     FirebaseDatabase rootNode;
@@ -50,27 +48,11 @@ public class Dashboard extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        Food food1 = new Food("Appl1", 50f, 1f, 0f, 15f, 1f);
-        Food food2 = new Food("Apple2", 50f, 1f, 0f, 15f, 1f);
-        Food food3 = new Food("Apple3", 50f, 1f, 0f, 15f, 1f);
-
-        foods.add(food1);
-        foods.add(food2);
-        foods.add(food3);
-
         //initialize currentDate to today's date
         Date tempDate = new Date();
         currentDate = new Date(tempDate.getYear(), tempDate.getMonth(), tempDate.getDate());
-        Log.e(Dashboard.class.getSimpleName(), "Check");
-
-
-        //reference.child(user.getUid()).child(java.time.LocalDate.now().toString()).child("foods").setValue(food1);
-
-        //reference.child("foods").setValue(food1);
 
         Home_Fragment home_fragment = new Home_Fragment();
-
-
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home_fragment).commit();
     }
 
@@ -112,33 +94,30 @@ public class Dashboard extends AppCompatActivity {
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
-                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            item -> {
+                Fragment selectedFragment = null;
+                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-                    switch(item.getItemId()) {
-                        case R.id.nav_home:
-                            selectedFragment = new Home_Fragment();
-                            toolbar.setTitle("Home");
-                            break;
-                        case R.id.nav_diary:
-                            selectedFragment = new Diary_Fragment();
-                            toolbar.setTitle("Diary");
-                            break;
-                        case R.id.nav_me:
-                            selectedFragment = new Me_Fragment();
-                            toolbar.setTitle("Me");
-                            break;
-                        case R.id.nav_search:
-                            selectedFragment = new Search_Fragment();
-                            toolbar.setTitle("Search");
-                            break;
-                    }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
-                    return true;
+                switch(item.getItemId()) {
+                    case R.id.nav_home:
+                        selectedFragment = new Home_Fragment();
+                        toolbar.setTitle("Home");
+                        break;
+                    case R.id.nav_diary:
+                        selectedFragment = new Diary_Fragment();
+                        toolbar.setTitle("Diary");
+                        break;
+                    case R.id.nav_me:
+                        selectedFragment = new Me_Fragment();
+                        toolbar.setTitle("Me");
+                        break;
+                    case R.id.nav_search:
+                        selectedFragment = new Search_Fragment();
+                        toolbar.setTitle("Search");
+                        break;
                 }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+                return true;
             };
 
     public void launchFoodItemFragment() {
