@@ -54,7 +54,6 @@ public class Home_Fragment extends Fragment {
 
     private Vector<Food> foods;
 
-
     private View v;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
