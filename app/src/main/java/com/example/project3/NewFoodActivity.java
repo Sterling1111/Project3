@@ -73,14 +73,14 @@ public class NewFoodActivity extends AppCompatActivity {
 
 
     public void createFood() {
+        Float calories = Float.parseFloat(calField.getText().toString());
         food = new Food();
         food.setFoodName(nameField.getText().toString());
-        food.setCalories(Float.parseFloat(calField.getText().toString()));
         food.setTotalCarb(Float.parseFloat(carbField.getText().toString()));
         food.setProtein(Float.parseFloat(proteinField.getText().toString()));
         food.setTotalFat(Float.parseFloat(fatField.getText().toString()));
         food.setServings(Float.parseFloat(carbField.getText().toString()));
-        food.setCaloriesPerServing(food.getCalories() / food.getServings());
+        food.setCaloriesPerServing(calories / food.getServings());
 
        /* Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
