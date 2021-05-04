@@ -30,27 +30,33 @@ public class MainActivity extends AppCompatActivity {
 
     private final static String TAG = "MainActivity.java";
     private FirebaseAuth mFirebaseAuth;
-    private DatabaseReference reference;
+    DatabaseReference reference;
+    FirebaseDatabase rootNode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        reference = FirebaseDatabase.getInstance().getReference();
+        //reference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        FirebaseAuth.getInstance().signOut();
+
+        rootNode = FirebaseDatabase.getInstance();
+        reference = rootNode.getReference("String");
+        reference.setValue("What the hell bro");
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+       // Log.d(TAG, user.getUid());
 
         //TODO: reimplement login activity
-        /*if (user == null) {
+        if (user == null) {
             // Not signed in launch the sign in activity
             startActivity(new Intent(MainActivity.this, Login.class));
         } else {
             Log.d(TAG, user.getEmail());
             startActivity(new Intent(MainActivity.this, Dashboard.class));
-        }*/
-        startActivity(new Intent(MainActivity.this, Dashboard.class));
+        }
+        //startActivity(new Intent(MainActivity.this, Dashboard.class));
         finish();
     }
 }

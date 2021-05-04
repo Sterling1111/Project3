@@ -15,101 +15,65 @@
  */
  package com.example.project3.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+//import androidx.fragment.app.Fragment;
+import android.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 //import com.bumptech.glide.Glide;
+import com.example.project3.Dashboard;
+import com.example.project3.FoodItemFragment;
 import com.example.project3.R;
 import com.example.project3.model.Food;
 import com.example.project3.util.FoodUtil;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import java.util.Vector;
 
-public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
+public class FoodAdapter extends FirestoreRecyclerAdapter<Food, FoodAdapter.FoodHolder> {
 
-    private Vector<Food> foods;
-
-    public FoodAdapter(Vector<Food> foods) {
-        this.foods = foods;
+    public FoodAdapter(@NonNull FirestoreRecyclerOptions<Food> options) {
+        super(options);
     }
 
-    private String[] foodNames = {
-            "Trader Joe's, Honeycrisp Apples",
-            "Bananas, Raw",
-            "Pear, Home Canned",
-            "Cherries, Sweet, Raw",
-            "Plums, Dried",
-            "Oranges, Raw",
-            "Water Chestnuts, Raw",
-            "Soy Milk, Plain or Original, Unsweetened, Not Fortified, Ready-to-Drink",
-            "Dave's Killer Bread, 21 Whole Grains Bread"
-    };
-
-    private String[] servings = {
-            "1 medium apple",
-            "1 medium - 7\" to 7 7/8 long",
-            "1 half - with liquid",
-            "1 each - pitted",
-            "1 each",
-            "1 medium - 2 5/8\" diameter",
-            "1 cup, sliced",
-            "1 cup",
-            "1 slice"
-    };
-
-    private float[] calories = {80.0f, 105.0f, 56.2f, 5.2f, 22.8f, 61.6f, 120.3f, 87.7f, 120.0f};
-
+    @Override
+    protected void onBindViewHolder(@NonNull FoodHolder holder, int position, @NonNull Food model) {
+        holder.name.setText(model.getFoodName());
+        holder.servings.setText(String.valueOf(model.getServings()));
+        holder.calories.setText(String.valueOf(model.getCalories()));
+    }
 
     @NonNull
     @Override
-    public FoodAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FoodHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_list_item, parent, false);
-        return new ViewHolder(v);
+        return new FoodHolder(v);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull FoodAdapter.ViewHolder holder, int position) {
-        Food food = foods.get(position);
-        if((position & 1) == 1) {
-            holder. getItemView().setBackgroundColor(Color.rgb(238, 233, 233));
-        } else {
-            holder.getItemView().setBackgroundColor(Color.rgb(255, 255, 255));
-        }
-        holder.foodName.setText(food.getFoodName());
-        holder.servings.setText(String.valueOf(food.getServings()) + " servings");
-        holder.calories.setText(String.valueOf(food.getServings() * food.getCaloriesPerServing()));
-        holder.calorie_number.setText("kcal");
-    }
+    class FoodHolder extends RecyclerView.ViewHolder {
+        TextView name, servings, calories;
 
-    @Override
-    public int getItemCount() {
-        return foods.size();
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView foodName, servings, calories, calorie_number;
-        Food food;
-
-        public ViewHolder(@NonNull View itemView) {
+        public FoodHolder(@NonNull View itemView) {
             super(itemView);
-            foodName = itemView.findViewById(R.id.food_name);
+            name = itemView.findViewById(R.id.name_of_food);
             servings = itemView.findViewById(R.id.servings);
             calories = itemView.findViewById(R.id.calories_number);
-            calorie_number = itemView.findViewById(R.id.calories_unit);
-        }
-
-        public View getItemView() {
-            return itemView;
         }
     }
 }

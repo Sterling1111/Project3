@@ -87,6 +87,7 @@
     <string name="carbs">Carbs</string>
     <string name="add_food">Add Food</string>
     <string name="macronutrient_targets">Macronutrient Targets</string>
+    <string name="micronutrient_targets">Micronutrient Targets</string>
     <string name="today">TODAY</string>
 
 </resources>

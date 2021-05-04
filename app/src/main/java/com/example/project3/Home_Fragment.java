@@ -4,6 +4,7 @@ package com.example.project3;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project3.adapter.ExpansionState;
 import com.example.project3.adapter.FoodAdapter;
 import com.example.project3.adapter.FoodDataAdapter;
 import com.example.project3.model.Food;
@@ -24,7 +26,7 @@ import com.example.project3.model.Food;
 import java.util.Vector;
 
 public class Home_Fragment extends Fragment {
-    Vector<Food> foods;
+    private static String TAG = "Home_Fragment";
 /*    ProgressBar calories_pb, protein_pb, carbs_pb, fat_pb;
     TextView calories_percentageTextView, protein_percentageTextView, carbs_percentageTextView, fat_percentageTextView, caloriesTextView, proteinTextView, carbsTextView, fatTextView;
     @SuppressLint("SetTextI18n")
@@ -78,6 +80,8 @@ public class Home_Fragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
+    Vector<Food> foods;
+    Vector<ExpansionState> expansionStates;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -86,11 +90,13 @@ public class Home_Fragment extends Fragment {
         recyclerView = v.findViewById(R.id.recycler_home);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        recyclerView.setAdapter(new FoodDataAdapter(foods));
+        recyclerView.setAdapter(new FoodDataAdapter(foods, expansionStates));
         return v;
     }
 
     public void setFoods(Vector<Food> foods) {
         this.foods = foods;
     }
+
+    public void setExpansionStates(Vector<ExpansionState> expansionStates) {this.expansionStates = expansionStates;}
 }

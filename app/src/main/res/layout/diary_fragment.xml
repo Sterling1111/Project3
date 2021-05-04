@@ -3,6 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/diary_frag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E0E0E0"
@@ -60,5 +61,17 @@
         tools:visibility="gone">
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/ic_baseline_add_24"
+        android:contentDescription="@string/submit"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/purple_200"
+        tools:ignore="RtlHardcoded" />
 
 </RelativeLayout>
