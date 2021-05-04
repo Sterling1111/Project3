@@ -18,15 +18,30 @@ import com.example.project3.model.Food;
 import java.util.Vector;
 
 /**
- *
+ * adapter class for populating RecyclerView in Search_Fragment with data from FoodData database
  */
 public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.FoodResultHolder> {
 
-
+    /**
+     * ViewHolder inner class that initializes each row of the RecyclerView
+     */
     class FoodResultHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        /**
+         * displays the name of a Food Object
+         */
         public final TextView foodResultView;
+
+        /**
+         *
+         */
         final FoodResultAdapter mAdapter;
 
+        /**
+         *
+         * @param itemView
+         * @param adapter
+         */
         public FoodResultHolder(View itemView, FoodResultAdapter adapter) {
             super(itemView);
             foodResultView = itemView.findViewById(R.id.word);
@@ -34,6 +49,10 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
             itemView.setOnClickListener(this::onClick);
         }
 
+        /**
+         *
+         * @param v
+         */
         @Override
         public void onClick(View v) {
             int mPosition = getLayoutPosition();
@@ -46,10 +65,26 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
         }
     }
 
+    /**
+     *
+     */
     private final Vector<Food> mFoodList;
+
+    /**
+     *
+     */
     private LayoutInflater mInflater;
+
+    /**
+     *
+     */
     private Context mContext;
 
+    /**
+     *
+     * @param context
+     * @param foodList
+     */
     public FoodResultAdapter(Context context, Vector<Food> foodList) {
         mInflater = LayoutInflater.from(context);
         mContext = context;
@@ -57,6 +92,12 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
 
     }
 
+    /**
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public FoodResultAdapter.FoodResultHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -65,6 +106,11 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
         return new FoodResultHolder(mItemView, this);
     }
 
+    /**
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull FoodResultAdapter.FoodResultHolder holder, int position) {
         String mCurrent = mFoodList.get(position).getFoodName();
@@ -72,6 +118,10 @@ public class FoodResultAdapter extends RecyclerView.Adapter<FoodResultAdapter.Fo
 
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return mFoodList.size();

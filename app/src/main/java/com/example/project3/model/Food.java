@@ -8,17 +8,46 @@ import java.io.Serializable;
  * Food.java is the main entity that we will use to retrieve the data for the food that is added.
  */
 public class Food implements Serializable {
+
+    /**
+     *
+     */
     private String foodName;
+
+    /**
+     *
+     */
     private Float servings;
+
+    /**
+     *
+     */
     private Float caloriesPerServing;
+
+    /**
+     *
+     */
     private Float totalFat;
+
+    /**
+     *
+     */
     private Float totalCarb;
+
+    /**
+     *
+     */
     private Float protein;
 
-
+    /**
+     *
+     */
     public Food() {}
 
-
+    /**
+     *
+     * @param food
+     */
     public Food(Food food) {
         this(food.foodName, food.caloriesPerServing, food.servings, food.protein, food.totalCarb, food.totalFat);
     }

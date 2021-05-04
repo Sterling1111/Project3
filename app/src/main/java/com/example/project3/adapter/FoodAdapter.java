@@ -30,12 +30,25 @@ import com.example.project3.model.Food;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+/**
+ *
+ */
 public class FoodAdapter extends FirestoreRecyclerAdapter<Food, FoodAdapter.FoodHolder> {
 
+    /**
+     *
+     * @param options
+     */
     public FoodAdapter(@NonNull FirestoreRecyclerOptions<Food> options) {
         super(options);
     }
 
+    /**
+     *
+     * @param holder
+     * @param position
+     * @param model
+     */
     @Override
     protected void onBindViewHolder(@NonNull FoodHolder holder, int position, @NonNull Food model) {
         holder.name.setText(model.getFoodName());
@@ -43,6 +56,12 @@ public class FoodAdapter extends FirestoreRecyclerAdapter<Food, FoodAdapter.Food
         holder.calories.setText(String.valueOf(model.getCalories()));
     }
 
+    /**
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public FoodHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,9 +69,16 @@ public class FoodAdapter extends FirestoreRecyclerAdapter<Food, FoodAdapter.Food
         return new FoodHolder(v);
     }
 
+    /**
+     *
+     */
     class FoodHolder extends RecyclerView.ViewHolder {
         TextView name, servings, calories;
 
+        /**
+         *
+         * @param itemView
+         */
         public FoodHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name_of_food);

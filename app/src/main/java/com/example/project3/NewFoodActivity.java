@@ -15,20 +15,65 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ *
+ */
 public class NewFoodActivity extends AppCompatActivity {
 
+    /**
+     *
+     */
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+    /**
+     *
+     */
     private TextView nameField;
+
+    /**
+     *
+     */
     private TextView calField;
+
+    /**
+     *
+     */
     private TextView carbField;
+
+    /**
+     *
+     */
     private TextView proteinField;
+
+    /**
+     *
+     */
     private TextView fatField;
+
+    /**
+     *
+     */
     private TextView servingsField;
+
+    /**
+     *
+     */
     private Button addButton;
+
+    /**
+     *
+     */
     Food food = null;
+
+    /**
+     *
+     */
     private final String TAG = NewFoodActivity.class.getSimpleName();
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,14 +98,13 @@ public class NewFoodActivity extends AppCompatActivity {
         } else
             Log.e(TAG, "savedInstanceState is null");
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                createFood();
-            }
-        });
+        addButton.setOnClickListener(view -> createFood());
 
     }
 
+    /**
+     *
+     */
     public void createFood() {
         Float calories = Float.parseFloat(calField.getText().toString());
         food = new Food();
@@ -68,7 +112,7 @@ public class NewFoodActivity extends AppCompatActivity {
         food.setTotalCarb(Float.parseFloat(carbField.getText().toString()));
         food.setProtein(Float.parseFloat(proteinField.getText().toString()));
         food.setTotalFat(Float.parseFloat(fatField.getText().toString()));
-        food.setServings(Float.parseFloat(carbField.getText().toString()));
+        food.setServings(Float.parseFloat(servingsField.getText().toString()));
         food.setCaloriesPerServing(calories / food.getServings());
 
         Task<DocumentReference> foodsRef = FirebaseFirestore.getInstance().collection("Users").document(user.getUid()).collection("Dates").
