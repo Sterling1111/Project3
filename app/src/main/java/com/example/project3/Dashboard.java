@@ -2,18 +2,14 @@ package com.example.project3;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
-import com.example.project3.model.Food;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,37 +17,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Date;
-import java.util.Vector;
 
 /**
- *
- */
+ * An activity which is a base for the entire application
+ * @author Sterling Jeppson
+ * @author Arian Aryubi
+ * @author Lissette Sotto
+ * @author Karthikeyan Vijayaraj
+ * @since 5/4/21
+ * */
 public class Dashboard extends AppCompatActivity {
 
-    /**
-     *
-     */
+    /** a date which represents that current date */
     static Date currentDate;
-
-    /**
-     *
-     */
     FirebaseDatabase rootNode;
-
-    /**
-     *
-     */
     DatabaseReference reference;
-
-    /**
-     *
-     */
     FirebaseUser user;
 
-    /**
-     *
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,11 +58,7 @@ public class Dashboard extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home_fragment).commit();
     }
 
-    /**
-     *
-     * @param menu
-     * @return
-     */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -88,11 +66,7 @@ public class Dashboard extends AppCompatActivity {
         return true;
     }
 
-    /**
-     *
-     * @param item
-     * @return
-     */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -110,7 +84,9 @@ public class Dashboard extends AppCompatActivity {
     }
 
     /**
-     *
+     * If the user signs out then they will be taken to the sign in page which is a new Activity
+     * that will be called by this method. The flags passed mean that once this function is called you
+     * cannot return to the activity except by loging in again.
      */
     private void startSignIn() {
         Intent intent = new Intent(Dashboard.this, Login.class);
@@ -119,7 +95,9 @@ public class Dashboard extends AppCompatActivity {
     }
 
     /**
-     *
+     * A listener which listens for the user to select an icon in the Bottom Navigation view.
+     * When they do they will be directed to the Fragment which corresponds the the icon which
+     * they selected.
      */
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
         Fragment selectedFragment = null;
