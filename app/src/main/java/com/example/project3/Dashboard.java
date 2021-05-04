@@ -72,6 +72,9 @@ public class Dashboard extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 startSignIn();
                 break;
+            case R.id.quick_add_menu_button:
+                startActivity(new Intent(this, NewFoodActivity.class));
+                break;
         }
         return true;
     }
