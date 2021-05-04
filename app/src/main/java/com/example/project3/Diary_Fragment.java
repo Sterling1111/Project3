@@ -26,62 +26,33 @@ import com.google.firebase.firestore.Query;
 import java.util.Date;
 
 /**
- *
- */
+ * An activity which displays the food items that a user has consumed for a given date.
+ * @author Sterling Jeppson
+ * @author Arian Aryubi
+ * @author Lissette Sotto
+ * @author Karthikeyan Vijayaraj
+ * @since 5/4/21
+ * */
 public class Diary_Fragment extends Fragment {
 
-    /**
-     *
-     */
+
     private static final String TAG = "Diary_Fragment";
 
-    /**
-     *
-     */
+
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-
-    /**
-     *
-     */
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-    /**
-     *
-     */
     private CollectionReference foodRef;
 
-    /**
-     *
-     */
+    /** An object which creates the correct layout for the individual recycler view items */
     private FoodAdapter adapter;
-
-    /**
-     *
-     */
     private RecyclerView recyclerView;
-
-    /**
-     *
-     */
     private DatePickerDialog datePickerDialog;
 
-    /**
-     *
-     */
+    /** a button which opens a date picker diologue and also displays the current date */
     private Button dateButton;
-
-    /**
-     *
-     */
     private View v;
 
-    /**
-     *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
-     */
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -100,8 +71,8 @@ public class Diary_Fragment extends Fragment {
     }
 
     /**
-     *
-     * @param v
+     * A method which initializes the recycler with the results a document reference
+     * @param v is a view which is needed in order to find the recycler_diary recyclerview
      */
     private void initRecyclerView(View v) {
         Query query = foodRef;
@@ -114,9 +85,6 @@ public class Diary_Fragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    /**
-     *
-     */
     @Override
     public void onStart() {
         super.onStart();
@@ -125,9 +93,6 @@ public class Diary_Fragment extends Fragment {
         }
     }
 
-    /**
-     *
-     */
     @Override
     public void onStop() {
         super.onStop();
@@ -149,7 +114,7 @@ public class Diary_Fragment extends Fragment {
     }
 
     /**
-     *
+     *Takes an int which represents a month and returns a string which represents a month
      * @param month integer representation of the month the user has selected
      * @return returns String that corresponding to the integer selected
      */
@@ -184,7 +149,9 @@ public class Diary_Fragment extends Fragment {
     }
 
     /**
-     *
+     *initializes date picker by setting a listener that listens for a change in the date. If the date
+     * is changed then a new reference to documents is made based on the date that was just selected. Then a new query
+     * is created and the adapter for the recycler view is updated.
      */
     private void initDatePicker() {
         //The listener used to indicate the user has finished selecting a date
