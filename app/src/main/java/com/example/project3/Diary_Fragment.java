@@ -1,3 +1,7 @@
+/**
+ *Diary_Fragment.java is the main entity that we will be using for our date picker and for the diary.
+ */
+
 package com.example.project3;
 
 import android.app.AlertDialog;
@@ -66,7 +70,6 @@ public class Diary_Fragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));*/
 
         dateButton = v.findViewById(R.id.datePickerButton);
-        dateButton.setText(Dashboard.currentDate.toString());
 
         initDatePicker();
 
@@ -122,6 +125,10 @@ public class Diary_Fragment extends Fragment {
         }
     }
 
+    /**
+     *
+     * @return date in Gregorian form
+     */
     private Date getTodayDate() {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
@@ -130,10 +137,23 @@ public class Diary_Fragment extends Fragment {
         return new Date(year, month, day);
     }
 
+    /**
+     *This method takes a day, month, and year and returns it in dd/MM/YYYY form
+     *
+     * @param day is an int representing the date of the month the user has selected
+     * @param month is an int that represents the month of the year the user has selected
+     * @param year an int that represents what year the user has selected
+     * @return Dates in Gregorian form
+     */
     private String makeDateString(int day, int month, int year) {
         return getMonthFormat(month) + " " + day + " " + year;
     }
 
+    /**
+     *
+     * @param month integer representation of the month the user has selected
+     * @return returns String that corresponding to the integer selected
+     */
     private String getMonthFormat(int month) {
         if (month == 1)
             return "JAN";
@@ -164,14 +184,17 @@ public class Diary_Fragment extends Fragment {
         return "JAN";
     }
 
+
     private void initDatePicker() {
+        //The listener used to indicate the user has finished selecting a date
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
+
                 //currentDate = new Date(year, month, dayOfMonth);
                 Dashboard.currentDate = new Date(year - 1900, month, dayOfMonth);
                 String date = makeDateString(dayOfMonth, month, year);
-                dateButton.setText(Dashboard.currentDate.toString());
+                dateButton.setText(date);
                 //foodRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(currentDate.toString()).collection("Foods");
                 foodRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(Dashboard.currentDate.toString()).collection("Foods");
                 FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>().setQuery(foodRef, Food.class).build();
@@ -180,27 +203,17 @@ public class Diary_Fragment extends Fragment {
         };
 
 
-        /*
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        currentDate = new Date(year, month, day);
-
-         */
         int year = Dashboard.currentDate.getYear();
         int month = Dashboard.currentDate.getMonth();
         int day = Dashboard.currentDate.getDate();
+
+        dateButton.setText(makeDateString(day, month, year + 1900));
 
         int style = AlertDialog.THEME_HOLO_DARK;
 
 
         datePickerDialog = new DatePickerDialog(getActivity(), style, dateSetListener, year + 1900, month, day);
-        //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
 
     }
-
-
-    //here is where DatePicker logic should go
 }
