@@ -14,9 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.project3.adapter.ExpansionState;
-import com.example.project3.adapter.FoodAdapter;
-
 import com.example.project3.model.Food;
 import com.example.project3.util.FirebaseUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -31,7 +28,7 @@ import java.util.Vector;
 public class Dashboard extends AppCompatActivity {
 
     private final Vector<Food> foods = new Vector<>();
-    private final Vector<ExpansionState> expansionStates = new Vector<>();
+
     //static varibale to represent the current date user is examining
     static Date currentDate;
 
@@ -55,9 +52,6 @@ public class Dashboard extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        for(int i = 0; i < 7; i++) {expansionStates.add(new ExpansionState());}
-
-
         Food food1 = new Food("Appl1", 50f, 1f, 0f, 15f, 1f);
         Food food2 = new Food("Apple2", 50f, 1f, 0f, 15f, 1f);
         Food food3 = new Food("Apple3", 50f, 1f, 0f, 15f, 1f);
@@ -78,9 +72,6 @@ public class Dashboard extends AppCompatActivity {
 
         Home_Fragment home_fragment = new Home_Fragment();
         home_fragment.setFoods(foods);
-        home_fragment.setExpansionStates(expansionStates);
-
-
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home_fragment).commit();
     }
@@ -141,7 +132,6 @@ public class Dashboard extends AppCompatActivity {
                             selectedFragment = new Home_Fragment();
                             toolbar.setTitle("Home");
                             ((Home_Fragment) selectedFragment).setFoods(foods);
-                            ((Home_Fragment) selectedFragment).setExpansionStates(expansionStates);
                             break;
                         case R.id.nav_diary:
                             selectedFragment = new Diary_Fragment();

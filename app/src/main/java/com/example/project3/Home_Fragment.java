@@ -2,37 +2,83 @@ package com.example.project3;
 
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.project3.adapter.ExpansionState;
-import com.example.project3.adapter.FoodAdapter;
-import com.example.project3.adapter.FoodDataAdapter;
 import com.example.project3.model.Food;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
 import java.util.Vector;
 
 public class Home_Fragment extends Fragment {
+
     private static String TAG = "Home_Fragment";
-/*    ProgressBar calories_pb, protein_pb, carbs_pb, fat_pb;
+    ProgressBar calories_pb, protein_pb, carbs_pb, fat_pb;
     TextView calories_percentageTextView, protein_percentageTextView, carbs_percentageTextView, fat_percentageTextView, caloriesTextView, proteinTextView, carbsTextView, fatTextView;
-    @SuppressLint("SetTextI18n")
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
+    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private CollectionReference foodRef;
+
+    private DatePickerDialog datePickerDialog;
+    private Button dateButton;
+
+    private DocumentReference foodsRef;
+
+    Vector<Food> foods;
+
+    private View v;
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.home_fragment, container,false);
+        v = inflater.inflate(R.layout.home_fragment, container, false);
+
+        dateButton = v.findViewById(R.id.datePickerButton);
+        dateButton.setText(Dashboard.currentDate.toString());
+
+        initDatePicker();
+
+        firestore.collection("Users").document(user.getUid())
+                .collection("Dates").document(Dashboard.currentDate.toString())
+                .collection("Foods")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
 
         calories_pb = v.findViewById(R.id.calories_pb);
         protein_pb = v.findViewById(R.id.protein_pb);
@@ -75,28 +121,72 @@ public class Home_Fragment extends Fragment {
         fat_percentageTextView.setText(String.valueOf(fat_percentage) + " %");
 
         return v;
-    }*/
-
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView.Adapter adapter;
-    Vector<Food> foods;
-    Vector<ExpansionState> expansionStates;
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.home_fragment, container,false);
-        recyclerView = v.findViewById(R.id.recycler_home);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        recyclerView.setAdapter(new FoodDataAdapter(foods, expansionStates));
-        return v;
     }
 
-    public void setFoods(Vector<Food> foods) {
-        this.foods = foods;
+    private void initDatePicker() {
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
+                //currentDate = new Date(year, month, dayOfMonth);
+                Dashboard.currentDate = new Date(year - 1900, month, dayOfMonth);
+                String date = makeDateString(dayOfMonth, month, year);
+                dateButton.setText(Dashboard.currentDate.toString());
+                foodsRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(Dashboard.currentDate.toString());
+                FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>().setQuery(foodRef, Food.class).build();
+            }
+        };
+
+        int year = Dashboard.currentDate.getYear();
+        int month = Dashboard.currentDate.getMonth();
+        int day = Dashboard.currentDate.getDate();
+
+        int style = AlertDialog.THEME_HOLO_DARK;
+
+
+        datePickerDialog = new DatePickerDialog(getActivity(), style, dateSetListener, year + 1900, month, day);
+        //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
     }
 
-    public void setExpansionStates(Vector<ExpansionState> expansionStates) {this.expansionStates = expansionStates;}
+    private Date getTodayDate() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        return new Date(year, month, day);
+    }
+
+    private String makeDateString(int day, int month, int year) {
+        return getMonthFormat(month) + " " + day + " " + year;
+    }
+
+    private String getMonthFormat(int month) {
+        if (month == 1)
+            return "JAN";
+        if (month == 2)
+            return "FEB";
+        if (month == 3)
+            return "MAR";
+        if (month == 4)
+            return "APR";
+        if (month == 5)
+            return "MAY";
+        if (month == 6)
+            return "JUN";
+        if (month == 7)
+            return "JUL";
+        if (month == 8)
+            return "AUG";
+        if (month == 9)
+            return "SEP";
+        if (month == 10)
+            return "OCT";
+        if (month == 11)
+            return "NOV";
+        if (month == 12)
+            return "DEC";
+
+        //default
+        return "JAN";
+    }
+
 }
