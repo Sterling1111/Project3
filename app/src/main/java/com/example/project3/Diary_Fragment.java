@@ -174,7 +174,8 @@ public class Diary_Fragment extends Fragment {
                 dateButton.setText(Dashboard.currentDate.toString());
                 //foodRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(currentDate.toString()).collection("Foods");
                 foodRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(Dashboard.currentDate.toString()).collection("Foods");
-                initRecyclerView(v);
+                FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>().setQuery(foodRef, Food.class).build();
+                adapter.updateOptions(options);
             }
         };
 
