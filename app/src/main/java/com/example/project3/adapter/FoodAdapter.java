@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,17 +38,17 @@ public class FoodAdapter extends FirestoreRecyclerAdapter<Food, FoodAdapter.Food
 
     /**
      * constructor for FoodAdapter
-     * @param options
+     * @param options sets the collection that the RecyclerView will display the contents of
      */
     public FoodAdapter(@NonNull FirestoreRecyclerOptions<Food> options) {
         super(options);
     }
 
     /**
-     *
-     * @param holder
-     * @param position
-     * @param model
+     * sets the fields of a food_list_item for each cell of the RecyclerView
+     * @param holder a FoodHolder that will be initialized with its respective Food
+     * @param position the position in the collection, depending on what order the Foods were added
+     * @param model the Food object at that position
      */
     @Override
     protected void onBindViewHolder(@NonNull FoodHolder holder, int position, @NonNull Food model) {
@@ -58,10 +58,10 @@ public class FoodAdapter extends FirestoreRecyclerAdapter<Food, FoodAdapter.Food
     }
 
     /**
-     *
-     * @param parent
-     * @param viewType
-     * @return
+     * creates a FoodHolder when called
+     * @param parent used to get the food_list_item layout and pass it to the FoodHolder constructor
+     * @param viewType not used
+     * @return an initialized FoodHolder
      */
     @NonNull
     @Override
@@ -71,13 +71,26 @@ public class FoodAdapter extends FirestoreRecyclerAdapter<Food, FoodAdapter.Food
     }
 
     /**
-     *
+     * inner class that initializes the fields of a food_list_item layout
      */
     class FoodHolder extends RecyclerView.ViewHolder {
-        TextView name, servings, calories;
+        /**
+         * displays the name of the Food object
+         */
+        TextView name;
 
         /**
-         *
+         * displays the number of servings
+         */
+        TextView servings;
+
+        /**
+         * displays the number of calories the Food object has
+         */
+        TextView calories;
+
+        /**
+         * initializes the TextViews to the ones in food_list_item
          * @param itemView
          */
         public FoodHolder(@NonNull View itemView) {
