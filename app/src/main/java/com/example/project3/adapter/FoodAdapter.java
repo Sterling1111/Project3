@@ -91,7 +91,7 @@ public class FoodAdapter extends FirestoreRecyclerAdapter<Food, FoodAdapter.Food
 
         /**
          * initializes the TextViews to the ones in food_list_item
-         * @param itemView
+         * @param itemView takes a reference to the food_list_item layout
          */
         public FoodHolder(@NonNull View itemView) {
             super(itemView);
