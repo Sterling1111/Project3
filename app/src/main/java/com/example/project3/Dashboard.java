@@ -85,20 +85,10 @@ public class Dashboard extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch(item.getItemId()){
-            case R.id.quick_add_menu_button:
-                startActivity(new Intent(this, NewFoodActivity.class));
-                break;
 
             case R.id.sign_out:
                 FirebaseAuth.getInstance().signOut();
                 startSignIn();
-                break;
-            case R.id.add_random_foods:
-                Toast.makeText(this, "You clicked settings", Toast.LENGTH_SHORT).show();
-                break;
-
-            case R.id.me:
-                Toast.makeText(this, "You clicked logout", Toast.LENGTH_SHORT).show();
                 break;
         }
         return true;
