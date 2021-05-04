@@ -1,3 +1,7 @@
+/**
+ *Diary_Fragment.java is the main entity that we will be using for our date picker and for the diary.
+ */
+
 package com.example.project3;
 
 import android.app.AlertDialog;
@@ -117,6 +121,10 @@ public class Diary_Fragment extends Fragment implements
 
     }
 
+    /**
+     *
+     * @return date in Gregorian form
+     */
     private String getTodayDate() {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
@@ -126,10 +134,23 @@ public class Diary_Fragment extends Fragment implements
         return makeDateString(day, month, year);
     }
 
+    /**
+     *This method takes a day, month, and year and returns it in dd/MM/YYYY form
+     *
+     * @param day is an int representing the date of the month the user has selected
+     * @param month is an int that represents the month of the year the user has selected
+     * @param year an int that represents what year the user has selected
+     * @return Dates in Gregorian form
+     */
     private String makeDateString(int day, int month, int year) {
         return getMonthFormat(month) + " " + day + " " + year;
     }
 
+    /**
+     *
+     * @param month integer representation of the month the user has selected
+     * @return returns String that corresponding to the integer selected
+     */
     private String getMonthFormat(int month) {
         if (month == 1)
             return "JAN";
@@ -160,28 +181,34 @@ public class Diary_Fragment extends Fragment implements
         return "JAN";
     }
 
+
     private void initDatePicker() {
+        //The listener used to indicate the user has finished selecting a date
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
+                //january is month 0 so i did month+1 to make january 1
                 month = month + 1;
                 String date = makeDateString(dayOfMonth, month, year);
                 dateButton.setText(date);
             }
         };
 
+        //Calendar.getInstance() gets the current day that gets saved as cal
         Calendar cal = Calendar.getInstance();
+        //cal.get(Calendar.YEAR) gets present year
         int year = cal.get(Calendar.YEAR);
+        //cal.get(Calendar.MONTH) gets present month
         int month = cal.get(Calendar.MONTH);
+        //cal.get(Calendar.DAY_OF_MONTH) gets present day of month
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
         int style = AlertDialog.THEME_HOLO_DARK;
 
         datePickerDialog = new DatePickerDialog(getActivity(), style, dateSetListener, year, month, day);
+
+        //this line of of code is so that the user can't select a date in the future. It is commented out for now.
         //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
     }
-
-
-    //here is where DatePicker logic should go
 }
