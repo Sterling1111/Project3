@@ -1,25 +1,31 @@
 package com.example.project3;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Activity which allows the user to reset their password.
+ * @author Sterling Jeppson
+ * @author Arian Aryubi
+ * @author Lissette Sotto
+ * @author Karthikeyan Vijayaraj
+ * @since 5/4/21
+ * */
 public class ResetPassword extends AppCompatActivity {
 
     private FirebaseAuth auth;
+    /** To enter the users email */
     TextInputLayout email;
+    /** To submit request for email reset at password location */
     Button submit;
 
     @Override

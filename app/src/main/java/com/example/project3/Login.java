@@ -1,22 +1,17 @@
 package com.example.project3;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.auth.AuthUI;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -32,22 +27,37 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.util.Arrays;
-import java.util.List;
-
+/**
+ * Activity which allows the user to Login if they already have an account or directs them to
+ * an activity which allows them to register with an account.
+ * @author Sterling Jeppson
+ * @author Arian Aryubi
+ * @author Lissette Sotto
+ * @author Karthikeyan Vijayaraj
+ * @since 5/4/21
+ * */
 public class Login extends AppCompatActivity {
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
 
     private GoogleSignInClient mSignInClient;
-
     private FirebaseAuth mAuth;
 
-    Button callSignUp, loginBtn, forgotPassword;
+    /** launches the SignUp activity */
+    Button callSignUp;
+    /** launches the Dashboard activity if success else displays exception*/
+    Button loginBtn;
+    /** launches the ResetPassword activity */
+    Button forgotPassword;
+    /** Signs in user with Google and launches Dashboard activity */
     SignInButton gSignUpBtn;
+    /** launches the SignUp activity */
     TextView googleSignUptxt;
-    TextInputLayout email, password;
+    /** To enter the users email */
+    TextInputLayout email;
+    /** To enter the users password */
+    TextInputLayout password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +154,11 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    /**
+     * Authorises the user with Google sign in. If succesful then Dashboard activity is launched else
+     * an error message is displayed.
+     * @param idToken is an idToken that you can send to the server
+     */
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
@@ -165,6 +180,10 @@ public class Login extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Verifies whether the password field is not empty.
+     * @return a boolean to denote if the entered password is empty.
+     */
     public Boolean validatePassword() {
         if(TextUtils.isEmpty(password.getEditText().getText().toString())) {
             password.setError("Please enter password");
@@ -176,6 +195,10 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    /**
+     * Verifies whether the email field is not empty.
+     * @return a boolean to denote if the entered email is empty.
+     */
     public Boolean validateEmail() {
         if(TextUtils.isEmpty(email.getEditText().getText().toString())) {
             email.setError("Please enter email");
@@ -187,6 +210,9 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    /**
+     * a function which signs in the user
+     */
     public void signIn() {
         Intent signInIntent = mSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);

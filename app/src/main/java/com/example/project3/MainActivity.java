@@ -1,62 +1,38 @@
 package com.example.project3;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.util.Pair;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * Starting point for the application. Checks whether the user is signed in. If they are then
+ * they are directed to the dashboard class which is the base activity of the entire application. If they are
+ * not signed in then they are directed to the Login activity.
+ * @author Sterling Jeppson
+ * @author Arian Aryubi
+ * @author Lissette Sotto
+ * @author Karthikeyan Vijayaraj
+ * @since 5/4/21
+ * */
 public class MainActivity extends AppCompatActivity {
 
     private final static String TAG = "MainActivity.java";
-    private FirebaseAuth mFirebaseAuth;
-    DatabaseReference reference;
-    FirebaseDatabase rootNode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        //reference = FirebaseDatabase.getInstance().getReference();
-        mFirebaseAuth = FirebaseAuth.getInstance();
-
-        rootNode = FirebaseDatabase.getInstance();
-        reference = rootNode.getReference("String");
-        reference.setValue("What the hell bro");
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-       // Log.d(TAG, user.getUid());
-
-        //TODO: reimplement login activity
         if (user == null) {
-            // Not signed in launch the sign in activity
             startActivity(new Intent(MainActivity.this, Login.class));
         } else {
             Log.d(TAG, user.getEmail());
             startActivity(new Intent(MainActivity.this, Dashboard.class));
         }
-        //startActivity(new Intent(MainActivity.this, Dashboard.class));
         finish();
     }
 }

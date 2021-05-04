@@ -1,15 +1,14 @@
 package com.example.project3;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,14 +21,31 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
+/**
+ * Activity which allows the user to create an account.
+ * @author Sterling Jeppson
+ * @author Arian Aryubi
+ * @author Lissette Sotto
+ * @author Karthikeyan Vijayaraj
+ * @since 5/4/21
+ * */
 public class SignUp extends AppCompatActivity {
 
     private static final String TAG = "SignUp.java";
 
     private FirebaseAuth mAuth;
 
-    TextInputLayout regEmail, regPassword, passwordVerify;
-    Button Halogin, Register;
+    /** email to be entered */
+    TextInputLayout regEmail;
+    /** password to be entered */
+    TextInputLayout regPassword;
+    /** password to be verified */
+    TextInputLayout passwordVerify;
+    /** takes user back to login page */
+    Button Halogin;
+    /** registers the new user */
+    Button Register;
 
     FirebaseDatabase rootNode;
     DatabaseReference reference;
@@ -51,6 +67,10 @@ public class SignUp extends AppCompatActivity {
         passwordVerify = findViewById(R.id.passwordVerify);
     }
 
+    /**
+     * a function to register the user.
+     * @param view is a view which is passed to the user
+     */
     public void registerUser(View view) {
 
         //we cant let these short circuit so use | instead of ||
@@ -94,6 +114,10 @@ public class SignUp extends AppCompatActivity {
                 });
     }
 
+    /**
+     * a function to validate the users email
+     * @return true is email valid false otherwise
+     */
     private Boolean validateEmail() {
         String val = regEmail.getEditText().getText().toString();
         String emailPattern = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
@@ -111,6 +135,10 @@ public class SignUp extends AppCompatActivity {
         }
     }
 
+    /**
+     * a function to validate the users password
+     * @return true if valid password false otherwise
+     */
     private Boolean validatePassword() {
         String val = regPassword.getEditText().getText().toString();
 
@@ -136,6 +164,10 @@ public class SignUp extends AppCompatActivity {
         }
     }
 
+    /**
+     * a function to verify password
+     * @return true if passwords match false otherwise
+     */
     private Boolean verifyPassword() {
         if(!passwordVerify.getEditText().getText().toString().equals(regPassword.getEditText().getText().toString())) {
             passwordVerify.setError("Passwords must match");

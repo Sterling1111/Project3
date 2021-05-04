@@ -1,7 +1,4 @@
-
-
 package com.example.project3.model;
-
 import java.io.Serializable;
 
 /**

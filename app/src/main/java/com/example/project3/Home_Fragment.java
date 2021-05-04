@@ -1,10 +1,8 @@
 package com.example.project3;
 
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,11 +14,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.example.project3.model.Food;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,29 +29,61 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
 
+/**
+ * Fragment which allows the user to view information regarding foods consumed for a particular day.
+ * @author Sterling Jeppson
+ * @author Arian Aryubi
+ * @author Lissette Sotto
+ * @author Karthikeyan Vijayaraj
+ * @since 5/4/21
+ * */
 public class Home_Fragment extends Fragment {
 
     private static String TAG = "Home_Fragment";
-    ProgressBar calories_pb, protein_pb, carbs_pb, fat_pb;
-    TextView calories_percentageTextView, protein_percentageTextView, carbs_percentageTextView, fat_percentageTextView, caloriesTextView, proteinTextView, carbsTextView, fatTextView;
+    /** progress bar for calories */
+    ProgressBar calories_pb;
+    /** progress bar for protein */
+    ProgressBar protein_pb;
+    /** progress bar for carbs */
+    ProgressBar carbs_pb;
+    /** progress bar for fat */
+    ProgressBar fat_pb;
+    /** percentage for calories */
+    TextView calories_percentageTextView;
+    /** percentage for protein */
+    TextView protein_percentageTextView;
+    /** percentage for carbs */
+    TextView carbs_percentageTextView;
+    /** percentage for fat */
+    TextView fat_percentageTextView;
+    /** text for calories */
+    TextView caloriesTextView;
+    /** text for protein */
+    TextView proteinTextView;
+    /** text for carbs */
+    TextView carbsTextView;
+    /** text for fat */
+    TextView fatTextView;
 
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private CollectionReference foodRef;
 
+    /** A diologue which allows selection of date */
     private DatePickerDialog datePickerDialog;
+    /** Button which opens DatePickerDialog */
     private Button dateButton;
 
     private DocumentReference foodsRef;
-
+    /** to store the foods read from firebase so they can be worked with */
     private Vector<Food> foods;
 
     private View v;
 
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.home_fragment, container, false);
 
@@ -93,6 +121,10 @@ public class Home_Fragment extends Fragment {
         return v;
     }
 
+    /**
+     * A function to set the progress bars according to the current date
+     * @param date the date at which data is to be pulled from the database
+     */
     private void initProgressBars(Date date) {
         firestore.collection("Users").document(user.getUid())
                 .collection("Dates").document(date.toString())
@@ -136,6 +168,9 @@ public class Home_Fragment extends Fragment {
                 });
     }
 
+    /**
+     * A function to set the onDateSet event handler and to initialize it to the current date.
+     */
     private void initDatePicker() {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -155,23 +190,25 @@ public class Home_Fragment extends Fragment {
 
         int style = AlertDialog.THEME_HOLO_DARK;
 
-
         datePickerDialog = new DatePickerDialog(getActivity(), style, dateSetListener, year + 1900, month, day);
-        //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
     }
 
-    private Date getTodayDate() {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        return new Date(year, month, day);
-    }
-
+    /**
+     * a function to get the date as a string
+     * @param day an int that represents a dat
+     * @param month an int that represents a month
+     * @param year an int that represents a year
+     * @return a String that represents a date
+     */
     private String makeDateString(int day, int month, int year) {
         return getMonthFormat(month) + " " + day + " " + year;
     }
 
+    /**
+     * a function to return the month as a string
+     * @param month an int that represents the month
+     * @return a String that represents the month
+     */
     private String getMonthFormat(int month) {
         if (month == 1)
             return "JAN";
