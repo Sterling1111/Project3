@@ -11,11 +11,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.project3.model.Food;
-import com.example.project3.util.FirebaseUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -70,8 +68,9 @@ public class Dashboard extends AppCompatActivity {
 
         //reference.child("foods").setValue(food1);
 
-        Home_Fragment home_fragment = new Home_Fragment();
-        home_fragment.setFoods(foods);
+        //TODO: Change that back
+        Diary_Fragment home_fragment = new Diary_Fragment();
+        //home_fragment.setFoods(foods);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home_fragment).commit();
     }
@@ -92,7 +91,7 @@ public class Dashboard extends AppCompatActivity {
                 break;
 
             case R.id.sign_out:
-                FirebaseUtil.getAuth().signOut();
+                FirebaseAuth.getInstance().signOut();
                 startSignIn();
                 break;
             case R.id.add_random_foods:
@@ -124,12 +123,10 @@ public class Dashboard extends AppCompatActivity {
                         case R.id.nav_home:
                             selectedFragment = new Home_Fragment();
                             toolbar.setTitle("Home");
-                            ((Home_Fragment) selectedFragment).setFoods(foods);
                             break;
                         case R.id.nav_diary:
                             selectedFragment = new Diary_Fragment();
                             toolbar.setTitle("Diary");
-                            ((Diary_Fragment) selectedFragment).setFoods(foods);
                             break;
                         case R.id.nav_me:
                             selectedFragment = new Me_Fragment();
