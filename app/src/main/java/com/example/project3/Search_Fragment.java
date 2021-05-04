@@ -13,12 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.project3.adapter.FoodResultAdapter;
@@ -30,74 +27,104 @@ import org.json.JSONObject;
 
 import java.util.Vector;
 
+/**
+ * The Fragment object used to define the behavior of the search page of the application
+ */
 public class Search_Fragment extends Fragment {
-    private EditText mSearchEditText;
-    private final String TAG = Search_Fragment.class.getSimpleName();
-    private String searchQuery;
-    private RecyclerView mRecyclerView;
-    private FoodResultAdapter mAdapter;
-    private final Vector<Food> foodlist = new Vector<>();
 
+    /**
+     * a TextView that the user can enter a search query into
+     */
+    private EditText mSearchEditText;
+
+    /**
+     * Stores the name of the class for printing to the Log
+     */
+    private final String TAG = Search_Fragment.class.getSimpleName();
+
+    /**
+     * A RecyclerView.Adapter that populates the RecyclerView with Food objects from foodList
+     */
+    private FoodResultAdapter mAdapter;
+
+    /**
+     * A vector holding the search results that have been read into Food objects
+     */
+    private final Vector<Food> foodList = new Vector<>();
+
+    /**
+     * initializes fields when the fragment is launched from the bottom navigation toolbar, and
+     * defines a OnKeyListener for mSearchEditText
+     * @param inflater used to initialize the View object that is returned
+     * @param container is the View that contains the Search_Fragment
+     * @param savedInstanceState a nullable object used to pass arguments between Fragments
+     *                           and activities
+     * @return returns a view containing the Search_Fragment
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_search_, container, false);
         mSearchEditText = v.findViewById(R.id.search_box);
+
+        //listens for a enter key press in mSearchEditText and hides the keyboard and calls doSearch
         mSearchEditText.setOnKeyListener((v1, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager)getActivity()
+                        .getSystemService(getActivity().INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                searchQuery = mSearchEditText.getText().toString();
-                doSearch(searchQuery);
+                doSearch(mSearchEditText.getText().toString());
                 return true;
             }
             return false;
         });
 
-        mRecyclerView = v.findViewById(R.id.results_list);
-        mAdapter = new FoodResultAdapter(getActivity(), foodlist);
+        RecyclerView mRecyclerView = v.findViewById(R.id.results_list);
+        mAdapter = new FoodResultAdapter(getActivity(), foodList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
 
         return v;
     }
 
+    /**
+     * makes a call to the USDA's FoodData Center and retrieves a JSON Object
+     * @param sq the search term passed to FoodData
+     */
     private void doSearch(String sq) {
         Log.e(TAG, "Query passed to function: " + sq);
         String apiKey = "bGsZ45bJXihI7OhZmH5E3SpnPN0WUXHx24hhAU5l";
-        String url = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key="+ apiKey +"&query="+ sq +"&dataType=Branded&requireAllWords=true";
+        String url = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=" + apiKey +
+                "&query=" + sq +"&dataType=Branded&requireAllWords=true";
 
-        foodlist.clear();
+        //clear the vector every time a new search is made
+        foodList.clear();
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
 
-        JsonObjectRequest searchQuery = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject json) {
-                populateList(json);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "JsonObjectRequest error");
-            }
-        });
+        //initializes an asynchronous request that call populateList on completion
+        JsonObjectRequest searchQuery = new JsonObjectRequest(Request.Method.GET,
+                url, null, this::populateList,
+                error -> Log.e(TAG, "JsonObjectRequest error" + error.getMessage()));
 
         queue.add(searchQuery);
     }
 
+    /**
+     * parses the JSON Object and initializes Food objects stored in foodList that will use the
+     * FoodResultAdapter to display contents in the RecyclerView
+     * @param jsonObj JSON object that will be parsed for Food objects
+     */
     private void populateList(JSONObject jsonObj) {
         if (jsonObj != null) {
             Log.e(TAG, "Response from url: " + jsonObj.toString());
             try {
-
                 JSONArray foods = jsonObj.getJSONArray("foods");
 
                 for (int i = 0; i < foods.length(); i++) {
 
                     JSONObject f = foods.getJSONObject(i);
                     String foodName = f.getString("description");
-                    //String foodCategory = f.getString("foodCategory");
                     Food newFood = new Food();
                     newFood.setFoodName(foodName);
 
@@ -106,8 +133,6 @@ public class Search_Fragment extends Fragment {
                         for (int j = 0; j < nutrients.length(); j++) {
                             JSONObject n = nutrients.getJSONObject(j);
                             String nutrientName = n.getString("nutrientName");
-                            //String unitName = n.getString("unitName");
-                            //String derivationDescription = n.getString("derivationDescription");
                             Float value = (float) n.getDouble("value");
 
                             switch (nutrientName) {
@@ -127,34 +152,16 @@ public class Search_Fragment extends Fragment {
                                     newFood.setCaloriesPerServing(value);
                                     break;
                             }
-
                         }
-
-                    foodlist.add(newFood);
-
+                    foodList.add(newFood);
                 }
-
                 mAdapter.notifyDataSetChanged();
 
             } catch (final JSONException e) {
                 Log.e(TAG, "Json parsing error: " + e.getMessage());
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(), "Json parsing error: " + e.getMessage(),
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
             }
         } else {
             Log.e(TAG, "Couldn't get json from server.");
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getActivity(), "Couldn't get json from server. Check LogCat for possible errors!",
-                            Toast.LENGTH_LONG).show();
-                }
-            });
         }
     }
 }
