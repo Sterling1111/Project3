@@ -36,7 +36,7 @@ public class NewFoodActivity extends AppCompatActivity {
     private TextView servingsField;
     private Button addButton;
     Food food = null;
-    private final String TAG = Food_Fragment.class.getSimpleName();
+    private final String TAG = NewFoodActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

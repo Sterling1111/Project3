@@ -94,12 +94,10 @@ public class Dashboard extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         switch(item.getItemId()){
             case R.id.quick_add_menu_button:
-                toolbar.setTitle("Quick Add");
-                Toast.makeText(this, "You clicked add", Toast.LENGTH_SHORT).show();
-                switchContent(R.id.fragment_container, new Food_Fragment());
+                startActivity(new Intent(this, NewFoodActivity.class));
                 break;
 
             case R.id.sign_out:
@@ -123,11 +121,6 @@ public class Dashboard extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void switchContent(int id, Food_Fragment frag) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(id, frag, frag.toString());
-        ft.commit();
-    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
