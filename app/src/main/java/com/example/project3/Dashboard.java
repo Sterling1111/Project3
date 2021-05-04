@@ -68,9 +68,8 @@ public class Dashboard extends AppCompatActivity {
 
         //reference.child("foods").setValue(food1);
 
-        //TODO: Change that back
-        Diary_Fragment home_fragment = new Diary_Fragment();
-        //home_fragment.setFoods(foods);
+        Home_Fragment home_fragment = new Home_Fragment();
+
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home_fragment).commit();
     }

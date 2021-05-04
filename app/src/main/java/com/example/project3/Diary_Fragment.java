@@ -163,5 +163,6 @@ public class Diary_Fragment extends Fragment {
                 dateSetListener, year + 1900, month, day);
 
 
+
     }
 }

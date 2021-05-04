@@ -118,6 +118,8 @@ public class Food implements Serializable {
         this.caloriesPerServing = caloriesPerServing;
     }
 
+<<<<<<< HEAD
+=======
     /**
      *
      * @param caloriesPerServing the float of grams in calories per serving
@@ -130,6 +132,7 @@ public class Food implements Serializable {
      *
      * @param servings serving size as a float
      */
+>>>>>>> origin/master
     public void setServings(Float servings) {
         this.servings = servings;
     }

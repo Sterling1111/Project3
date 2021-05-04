@@ -33,6 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -51,7 +52,8 @@ public class Home_Fragment extends Fragment {
 
     private DocumentReference foodsRef;
 
-    Vector<Food> foods;
+    private Vector<Food> foods;
+
 
     private View v;
 
@@ -60,25 +62,6 @@ public class Home_Fragment extends Fragment {
 
         dateButton = v.findViewById(R.id.datePickerButton);
         dateButton.setText(Dashboard.currentDate.toString());
-
-        initDatePicker();
-
-        firestore.collection("Users").document(user.getUid())
-                .collection("Dates").document(Dashboard.currentDate.toString())
-                .collection("Foods")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
 
         calories_pb = v.findViewById(R.id.calories_pb);
         protein_pb = v.findViewById(R.id.protein_pb);
@@ -95,32 +78,63 @@ public class Home_Fragment extends Fragment {
         carbs_percentageTextView = v.findViewById(R.id.carbs_percentage);
         fat_percentageTextView = v.findViewById(R.id.fat_percentage);
 
-        int calories = (int) foods.stream().mapToDouble(Food::getCalories).sum();
-        int protein = (int) foods.stream().mapToDouble(Food::getProtein).sum();
-        int carbs = (int) foods.stream().mapToDouble(Food::getTotalCarb).sum();
-        int fat = (int) foods.stream().mapToDouble(Food::getTotalFat).sum();
+        initDatePicker();
 
-        int calorie_percentage = (calories * 100) / 2500;
-        int protein_percentage = (protein * 100) / 50;
-        int carbs_percentage = (carbs * 100) / 300;
-        int fat_percentage = (fat * 100) / 50;
+        foods = new Vector<Food>();
 
-        calories_pb.setProgress(calorie_percentage);
-        protein_pb.setProgress(protein_percentage);
-        carbs_pb.setProgress(carbs_percentage);
-        fat_pb.setProgress(fat_percentage);
+        initProgressBars(Dashboard.currentDate);
 
-        caloriesTextView.setText(String.valueOf(calories) + " / 2500");
-        proteinTextView.setText(String.valueOf(protein) + " / 50");
-        carbsTextView.setText(String.valueOf(carbs) + " / 300");
-        fatTextView.setText(String.valueOf(fat) + " / 50");
-
-        calories_percentageTextView.setText(String.valueOf(calorie_percentage) + " %");
-        protein_percentageTextView.setText(String.valueOf(protein_percentage) + " %");
-        carbs_percentageTextView.setText(String.valueOf(carbs_percentage) + " %");
-        fat_percentageTextView.setText(String.valueOf(fat_percentage) + " %");
+        dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
 
         return v;
+    }
+
+    private void initProgressBars(Date date) {
+        firestore.collection("Users").document(user.getUid())
+                .collection("Dates").document(date.toString())
+                .collection("Foods")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                                Food food = document.toObject(Food.class);
+                                foods.add(food);
+                            }
+                            int calories = (int) foods.stream().mapToDouble(Food::getCalories).sum();
+                            int protein = (int) foods.stream().mapToDouble(Food::getProtein).sum();
+                            int carbs = (int) foods.stream().mapToDouble(Food::getTotalCarb).sum();
+                            int fat = (int) foods.stream().mapToDouble(Food::getTotalFat).sum();
+
+                            int calorie_percentage = (calories * 100) / 2500;
+                            int protein_percentage = (protein * 100) / 50;
+                            int carbs_percentage = (carbs * 100) / 300;
+                            int fat_percentage = (fat * 100) / 50;
+
+                            calories_pb.setProgress(calorie_percentage);
+                            protein_pb.setProgress(protein_percentage);
+                            carbs_pb.setProgress(carbs_percentage);
+                            fat_pb.setProgress(fat_percentage);
+
+                            caloriesTextView.setText(String.valueOf(calories) + " / 2500");
+                            proteinTextView.setText(String.valueOf(protein) + " / 50");
+                            carbsTextView.setText(String.valueOf(carbs) + " / 300");
+                            fatTextView.setText(String.valueOf(fat) + " / 50");
+
+                            calories_percentageTextView.setText(String.valueOf(calorie_percentage) + " %");
+                            protein_percentageTextView.setText(String.valueOf(protein_percentage) + " %");
+                            carbs_percentageTextView.setText(String.valueOf(carbs_percentage) + " %");
+                            fat_percentageTextView.setText(String.valueOf(fat_percentage) + " %");
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     private void initDatePicker() {
@@ -131,8 +145,8 @@ public class Home_Fragment extends Fragment {
                 Dashboard.currentDate = new Date(year - 1900, month, dayOfMonth);
                 String date = makeDateString(dayOfMonth, month, year);
                 dateButton.setText(Dashboard.currentDate.toString());
-                foodsRef = firestore.collection("Users").document(user.getUid()).collection("Dates").document(Dashboard.currentDate.toString());
-                FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>().setQuery(foodRef, Food.class).build();
+                foods.clear();
+                initProgressBars(Dashboard.currentDate);
             }
         };
 
